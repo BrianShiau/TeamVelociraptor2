@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Player : MonoBehaviour {
 
@@ -10,6 +12,13 @@ public class Player : MonoBehaviour {
     public bool onCorner = false;
     public Rigidbody2D rb;
     public Collider2D playerBounds;
+
+    public HashSet<Collider2D> WallCollisions;
+
+    public void Awake()
+    {
+        WallCollisions = new HashSet<Collider2D>();
+    }
 
     // Use this for initialization
     void Start () {
@@ -45,6 +54,14 @@ public class Player : MonoBehaviour {
         //Horizontal Movement
         float move = Input.GetAxis("Horizontal2") * speed * Time.deltaTime;
         transform.Translate(move, 0, 0);
+
+        CheckWallCollisions();
+    }
+
+    protected void CheckWallCollisions()
+    {
+        WallCollisions.RemoveWhere(d => !d.enabled);
+        if (!WallCollisions.Any())climbing = false;
     }
 
     void OnCollisionStay2D(Collision2D c) {
@@ -57,12 +74,17 @@ public class Player : MonoBehaviour {
         //Climbing the wall
         if (c.gameObject.CompareTag("Wall") && playerBounds.bounds.min.y > c.collider.bounds.min.y - .1f)
         {
+            if (!WallCollisions.Contains(c.collider)) WallCollisions.Add(c.collider);
+
             rb.velocity = new Vector2(0,0);
             climbing = true;
         }
     }
 
-    void OnCollisionExit2D(Collision2D c) {
+    void OnCollisionExit2D(Collision2D c)
+    {
+        WallCollisions.Remove(c.collider);
+
         grounded = false;
         climbing = false;
     }
