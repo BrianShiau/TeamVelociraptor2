@@ -35,7 +35,7 @@ public class PickupGenerator : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		GameObject[] activePickups = GameObject.FindGameObjectsWithTag ("Pickup");
+		/*GameObject[] activePickups = GameObject.FindGameObjectsWithTag ("Pickup");
 		if (activePickups.Length < this.MaxSimultaneous)
 		{
 			this.timeUntilNext -= Time.fixedDeltaTime;
@@ -47,6 +47,6 @@ public class PickupGenerator : MonoBehaviour
 				pickup.ExpirationTime = Time.time + this.TimeToLive;
 				pickup.StartBlinkTime = pickup.ExpirationTime - this.TimeToBlink;
 			}
-		}
+		}*/
 	}
 }
