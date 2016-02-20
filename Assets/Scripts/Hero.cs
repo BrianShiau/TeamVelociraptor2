@@ -402,12 +402,12 @@ public class Hero : MonoBehaviour
 								else if (this.GetGrowStage() > hero.GetGrowStage())
 								{
 									SoundFX.Instance.OnHeroStompLandSquish(this);
-									hero.Die(this);
+									hero.Die();
 								}
 								else
 								{
 									SoundFX.Instance.OnHeroStompLandStun(this);
-									hero.Stun(this);
+									hero.Stun();
 									bounce = true;
 								}
 							}
@@ -481,16 +481,16 @@ public class Hero : MonoBehaviour
 		return (this.RespawnTimeLeft <= 0.0f);
 	}
 
-	public void Hit (Hero attackingHero)
+	public void Hit ()
 	{
-		if (this == attackingHero || !this.IsAlive())
+		if (!this.IsAlive())
 		{
 			return;
 		}
 
-		GameObject projectileExplosion = (GameObject)GameObject.Instantiate(attackingHero.ProjectileExplosion, this.transform.position, Quaternion.identity);
-		projectileExplosion.GetComponent<SpriteRenderer>().sprite = attackingHero.ProjectileExplosionSprite;
-		projectileExplosion.transform.localScale *= attackingHero.scale / attackingHero.StartScale;
+		GameObject projectileExplosion = (GameObject)GameObject.Instantiate(this.ProjectileExplosion, this.transform.position, Quaternion.identity);
+		projectileExplosion.GetComponent<SpriteRenderer>().sprite = this.ProjectileExplosionSprite;
+		projectileExplosion.transform.localScale *= this.scale / this.StartScale;
 
 		if (this.GetComponent<ShieldBuff>().enabled)
 		{
@@ -504,7 +504,7 @@ public class Hero : MonoBehaviour
 		}
 	}
 
-	void Die(Hero attackingHero)
+	void Die()
 	{
 		if (!this.IsAlive())
 		{
@@ -532,7 +532,7 @@ public class Hero : MonoBehaviour
 		return this.TimeLeftStunned > 0.0f;
 	}
 
-	void Stun(Hero attackingHero)
+	void Stun()
 	{
 		this.TimeLeftStunned = this.StunTime;
 
@@ -628,7 +628,7 @@ public class Hero : MonoBehaviour
 
 	public void Reset()
 	{
-		this.Die(null);
+		this.Die();
 		this.Respawn();
 		this.transform.localPosition = Vector3.zero;
 		this.RespawnTimeCalculated = this.RespawnTime;
@@ -650,7 +650,7 @@ public class Hero : MonoBehaviour
 		//hardcoded growStage to #
 		this.scale = (this.ScaleAdjustment * 3 * this.StartScale) + this.StartScale;
 		Rigidbody2D rb = GetComponent<Rigidbody2D>();
-		rb.mass = (this.StartScale / this.scale);
+		rb.mass = 5000000/*(this.StartScale / this.scale)*/;
 	}
 
 	public int GetGrowStage()

@@ -1318,7 +1318,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 964411967}
   - 114: {fileID: 964411966}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2526,7 +2526,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1423363066}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b84d4f2309746174f91c5fd134732ef7, type: 3}
+  m_Script: {fileID: 11500000, guid: 98cae455ca175491cbb6487d62791bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1518788206
@@ -2566,9 +2566,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1518788206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e39322b801aa444baf87c8ba136f662, type: 3}
+  m_Script: {fileID: 11500000, guid: e2b88e7485f0f4ddf8f4301de21508dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 100000, guid: bbfe1742032334cdca96228680379636, type: 2}
+  bulletSpeed: 10
 --- !u!212 &1518788209
 SpriteRenderer:
   m_ObjectHideFlags: 0

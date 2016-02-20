@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
 
 		if (hero != null)
 		{
-			hero.Hit(this.OwnerHero);
+			hero.Hit();
 			SoundFX.Instance.OnHeroHit(hero);
 		}
 

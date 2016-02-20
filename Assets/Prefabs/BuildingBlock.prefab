@@ -12,7 +12,7 @@ GameObject:
   - 61: {fileID: 6138396}
   - 95: {fileID: 9560406}
   - 114: {fileID: 11475004}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BuildingBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,6 +128,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 3ab12da014f72684e96d78daf42fe745,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 159820}
