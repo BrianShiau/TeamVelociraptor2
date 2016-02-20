@@ -27,6 +27,7 @@ public class Hero : MonoBehaviour
 	public GameObject ChannelLocator;
 	public GameObject CounterLocator;
 	public GameObject Projectile;
+	public GameObject Punch;
 	public GameObject ProjectileExplosion;
 	public GameObject StunVisual;
 	public GameObject ChannelVisual;
@@ -200,12 +201,13 @@ public class Hero : MonoBehaviour
 			if (this.HeroController.Shooting && this.TimeUntilNextProjectile < 0.0f)
 			{
 				this.TimeUntilNextProjectile = this.ProjectileDelay;
-				GameObject projectile = (GameObject)GameObject.Instantiate(this.Projectile, this.ProjectileEmitLocator.transform.position, Quaternion.identity);
+				//GameObject projectile = (GameObject)GameObject.Instantiate(this.Projectile, this.ProjectileEmitLocator.transform.position, Quaternion.identity);
+				GameObject projectile = (GameObject)GameObject.Instantiate(this.Punch, this.ProjectileEmitLocator.transform.position, Quaternion.identity);
 				projectile.GetComponent<SpriteRenderer>().sprite = this.ProjectileSprite;
-				projectile.GetComponent<Projectile>().OwnerHero = this;
+				projectile.GetComponent<Punch>().OwnerHero = this;
 				projectile.transform.localScale = this.transform.localScale;
 				float launchVelocity = (this.FacingRight ? 1.0f : -1.0f) * this.ProjectileLaunchVelocity;
-				projectile.GetComponent<Projectile>().Velocity = new Vector2(launchVelocity, 0.0f);
+				projectile.GetComponent<Punch>().Velocity = new Vector2(launchVelocity, 0.0f);
 				SoundFX.Instance.OnHeroFire(this);
 				Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), this.GetComponent<Collider2D>());
 			}
