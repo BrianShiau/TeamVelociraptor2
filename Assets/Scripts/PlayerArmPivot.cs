@@ -11,10 +11,10 @@ public class PlayerArmPivot : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Screen position of object
-        Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
+        Vector2 positionOnScreen = transform.position;
 
         //Screen position of the mouse
-        Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        Vector2 mouseOnScreen = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         //Get the angle between the points
         float angle = Mathf.Atan2(mouseOnScreen.y - positionOnScreen.y, mouseOnScreen.x - positionOnScreen.x) * Mathf.Rad2Deg;

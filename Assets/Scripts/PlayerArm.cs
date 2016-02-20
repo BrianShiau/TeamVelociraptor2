@@ -15,12 +15,15 @@ public class PlayerArm : MonoBehaviour {
 	void Update () {
         if (Input.GetMouseButtonDown(0))
         {
+            Vector2 positionOnScreen = transform.position;
+            Vector2 mouseOnScreen = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            float angle = Mathf.Atan2(mouseOnScreen.y - positionOnScreen.y, mouseOnScreen.x - positionOnScreen.x) * Mathf.Rad2Deg;
+
             GameObject projectile = (GameObject) Instantiate(bullet, gameObject.transform.position, Quaternion.identity);
 
-            Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
-            Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
-
-            projectile.GetComponent<Rigidbody2D>().velocity = (mouseOnScreen - positionOnScreen) * bulletSpeed;
+            projectile.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+            projectile.GetComponent<Rigidbody2D>().velocity 
+                = ((mouseOnScreen - positionOnScreen) / Vector2.Distance(positionOnScreen, mouseOnScreen)) * bulletSpeed;
         }
     }
 }
