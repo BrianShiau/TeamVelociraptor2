@@ -28,6 +28,7 @@ public class Punch : MonoBehaviour
 		this.transform.Translate (this.Velocity * Time.deltaTime);
 	}
 
+    /*
 	void OnCollisionEnter2D(Collision2D collision)
 	{
 		Hero hero = collision.gameObject.GetComponent<Hero>();
@@ -44,4 +45,5 @@ public class Punch : MonoBehaviour
 
 		Destroy(this.gameObject);
 	}
+    */
 }

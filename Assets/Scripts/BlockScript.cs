@@ -10,7 +10,7 @@ public class BlockScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+        tag = "Wall";
 	}
 	
 	// Update is called once per frame
@@ -20,6 +20,7 @@ public class BlockScript : MonoBehaviour {
 
     public void DamageBuilding() {
         GetComponent<SpriteRenderer>().sprite = sprite_damaged;
+        GetComponent<BoxCollider2D>().enabled = false;
         damaged = true;
         transform.parent.gameObject.GetComponent<BuildingScript>().CheckBuilding();
     }
@@ -32,7 +33,5 @@ public class BlockScript : MonoBehaviour {
             DamageBuilding();
 			SoundFX.Instance.OnHeroHit(punch.OwnerHero);
 		}
-
-		Destroy(this.gameObject);
 	}
 }

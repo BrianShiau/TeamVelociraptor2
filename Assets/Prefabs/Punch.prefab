@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21200000}
   - 50: {fileID: 5000000}
   - 61: {fileID: 6164240}
-  - 114: {fileID: 11412988}
+  - 114: {fileID: 11400000}
   m_Layer: 9
   m_Name: Punch
   m_TagString: Untagged
@@ -62,9 +62,9 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 0.7, y: 0.36}
---- !u!114 &11412988
+--- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
