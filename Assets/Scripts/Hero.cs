@@ -78,6 +78,8 @@ public class Hero : MonoBehaviour
 	public Sprite ProjectileSprite;
 	public Sprite ProjectileExplosionSprite;
 
+	public int health;
+
 	void Start ()
 	{
 		this.HeroController = this.GetComponent<HeroController>();
@@ -85,10 +87,13 @@ public class Hero : MonoBehaviour
 		this.ProjectileSprite = this.ProjectileSprites[this.HeroController.PlayerNumber];
 		this.ProjectileExplosionSprite = this.ProjectileExplosions[this.HeroController.PlayerNumber];
 		this.StartScale = this.scale;
+		this.SetGrowStage(0);
 		this.StartWidth = this.GetComponent<Collider2D>().bounds.size.x;
 		this.RespawnTimeCalculated = this.RespawnTime;
 
 		this.groundMask = LayerMask.NameToLayer ("Ground");
+
+		this.health = 100;
 	}
 
 	private float scale
@@ -150,7 +155,7 @@ public class Hero : MonoBehaviour
 		style.fontSize = (int)(Screen.width * 0.027027f);
 		style.alignment = TextAnchor.UpperLeft;
 
-		string displayString = "Flawless!";
+		/*string displayString = "Flawless!";
 		if (this.RespawnTimeLeft > 0)
 		{
 			displayString = string.Format("Back in {0}s!", ((int)Math.Ceiling(this.RespawnTimeLeft)).ToString());
@@ -162,7 +167,8 @@ public class Hero : MonoBehaviour
 		else if (this.NumDeaths > 0)
 		{
 			displayString = string.Format("{0} Deaths", this.NumDeaths);
-		}
+		}*/
+		string displayString = string.Format("{0} HP", health);
 
 		this.DrawOutlineText(new Rect((position.x + iconSizeWidth * 1.25f) / 1920.0f * Screen.width, 0, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
 	}
@@ -205,14 +211,15 @@ public class Hero : MonoBehaviour
 			}
 
 
-			bool controllerIssuedStomp = (this.HeroController.Jump && !this.CanDoubleJump);
+			//no stomping
+			/*bool controllerIssuedStomp = (this.HeroController.Jump && !this.CanDoubleJump);
 			if (controllerIssuedStomp && !this.CanJumpOffGround() && this.canStomp)
 			{
 				this.canStomp = false;
 				this.Stomping = true;
 				this.velocity = new Vector2(0.0f, this.StompSpeed);
 				SoundFX.Instance.OnHeroStompStart(this);
-			}
+			}*/
 		}
 
 		if (this.HeroController.GetResetGame)
@@ -223,7 +230,7 @@ public class Hero : MonoBehaviour
 
 		if (this.grounded)
 		{
-			this.SetDoubleJumpAllowed();
+			//this.SetDoubleJumpAllowed();
 		}
 
 		bool canMove = !this.IsChanneling && !this.Stomping && !this.IsStunned();
@@ -242,7 +249,7 @@ public class Hero : MonoBehaviour
 			if (this.HeroController.Jump)
 			{
 				bool isJumpingOffGround = this.CanJumpOffGround();
-				if (isJumpingOffGround || this.CanDoubleJump)
+				if (isJumpingOffGround /*|| this.CanDoubleJump*/)
 				{
 					bool doubleJumped = false;
 
@@ -489,7 +496,9 @@ public class Hero : MonoBehaviour
 		}
 		else
 		{
-			this.Die(attackingHero);
+			//lose health?
+			this.health--;
+			//this.Die(attackingHero);
 		}
 	}
 
@@ -636,7 +645,8 @@ public class Hero : MonoBehaviour
 
 	void SetGrowStage(int growStage)
 	{
-		this.scale = (this.ScaleAdjustment * growStage * this.StartScale) + this.StartScale;
+		//hardcoded growStage to #
+		this.scale = (this.ScaleAdjustment * 3 * this.StartScale) + this.StartScale;
 		Rigidbody2D rb = GetComponent<Rigidbody2D>();
 		rb.mass = (this.StartScale / this.scale);
 	}
