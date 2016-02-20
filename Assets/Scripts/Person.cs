@@ -45,8 +45,8 @@ public class Person : MonoBehaviour
     {
         RunSpeed = 1f;
         TurnTime = .2f;
-        TurnChance = .01f;
-        CollisionLayers = LayerMask.NameToLayer("Everything") ^ LayerMask.NameToLayer("Person");
+        TurnChance = .2f;
+        CollisionLayers = LayerMask.NameToLayer("Everything") & ~(1 << LayerMask.NameToLayer("People"));
 
         if (!LeftSensor) CreateLeftSensor();
         if (!RightSensor) CreateRightSensor();
@@ -65,12 +65,12 @@ public class Person : MonoBehaviour
         TurningBoolHash = Animator.StringToHash(TurningBool);
     }
     
-	// Use this for initialization
-	public void Start ()
-	{
-	    Collider2D = GetComponent<Collider2D>();
-	    Rigidbody2D = GetComponent<Rigidbody2D>();
-	}
+    // Use this for initialization
+    public void Start ()
+    {
+        Collider2D = GetComponent<Collider2D>();
+        Rigidbody2D = GetComponent<Rigidbody2D>();
+    }
 
     public void FixedUpdate()
     {
