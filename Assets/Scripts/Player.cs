@@ -43,7 +43,7 @@ public class Player : MonoBehaviour {
 
     void FixedUpdate() {
         //Horizontal Movement
-        float move = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+        float move = Input.GetAxis("Horizontal2") * speed * Time.deltaTime;
         transform.Translate(move, 0, 0);
     }
 
