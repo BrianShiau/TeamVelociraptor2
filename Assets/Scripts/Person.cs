@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -13,6 +15,8 @@ public class Person : MonoBehaviour
 
     [Range(0f, 1f), Tooltip("Chance each second.")]
     public float TurnChance;
+
+    public float EvacTime;
 
     [Header("Collision")]
     public LayerMask CollisionLayers;
@@ -34,18 +38,23 @@ public class Person : MonoBehaviour
         Idle,
         Turning,
         Moving,
+        Evacuating,
     }
 
     public bool FacingForward;
     public bool OnGround;
     public float TurnTimer;
     public float TurnChanceTimer;
+    public float EvacTimer;
+
+    public Player EvacuatingPlayer;
 
     public void Reset()
     {
         RunSpeed = 1f;
         TurnTime = .2f;
         TurnChance = .2f;
+        EvacTime = 3f;
         CollisionLayers = LayerMask.NameToLayer("Everything") & ~(1 << LayerMask.NameToLayer("People"));
 
         if (!LeftSensor) CreateLeftSensor();
@@ -59,10 +68,12 @@ public class Person : MonoBehaviour
     {
         CurrentState = State.Moving;
         FacingForward = Random.value > 0.5f;
+        EvacTimer = 0f;
         OnGround = false;
         TurnTimer = 0f;
         TurnChanceTimer = Random.value;
         TurningBoolHash = Animator.StringToHash(TurningBool);
+        EvacuatingPlayer = null;
     }
     
     // Use this for initialization
@@ -118,6 +129,32 @@ public class Person : MonoBehaviour
             }
         }
 
+        if (CurrentState != State.Evacuating)
+        {
+            if (EvacuatingPlayer != null)
+            {
+                CurrentState = State.Evacuating;
+                EvacTimer = 0f;
+            }
+        }
+        else
+        {
+            if (EvacuatingPlayer == null)
+            {
+                CurrentState = State.Moving;
+                EvacTimer = 0f;
+            }
+            else
+            {
+                vx = 0f;
+
+                if ((EvacTimer += Time.deltaTime) > EvacTime)
+                {
+                    Evacuate(EvacuatingPlayer);
+                }
+            }
+        }
+
         Rigidbody2D.velocity = new Vector2(vx, vy);
 
         Physics2D.queriesStartInColliders = true;
@@ -133,6 +170,12 @@ public class Person : MonoBehaviour
 
     public void Die()
     {
+        Destroy(gameObject);
+    }
+
+    public void Evacuate(Player player)
+    {
+        ++player.PeopleEvacuated;
         Destroy(gameObject);
     }
 
