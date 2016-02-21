@@ -77,7 +77,11 @@ MonoBehaviour:
   Lifetime: 3.25
   OwnerHero: {fileID: 0}
   Velocity: {x: 0, y: 0}
+<<<<<<< HEAD
 --- !u!114 &11425426
+=======
+--- !u!114 &11419158
+>>>>>>> 89ca06d1fa37171bfd3d32223a30b553b2d491bb
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -85,7 +89,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: edb80e1c7ef014f7fb0a1d814359bab0, type: 3}
+=======
+  m_Script: {fileID: 11500000, guid: 5bd3a484d84070640ba31c48fabbe95f, type: 3}
+>>>>>>> 89ca06d1fa37171bfd3d32223a30b553b2d491bb
   m_Name: 
   m_EditorClassIdentifier: 
   vel: {x: 0, y: 0, z: 0}
