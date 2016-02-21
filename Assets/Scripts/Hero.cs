@@ -242,9 +242,18 @@ public class Hero : MonoBehaviour
 		{
 			displayString = string.Format("{0} Deaths", this.NumDeaths);
 		}*/
-		string displayString = string.Format("Score: {0}", score);
 		healthBar.transform.localScale = new Vector3(health/20.0f, 1.0f, 1.0f);
 
+		string displayString;
+		if (score < 5)
+			displayString = string.Format ("{0}/5 to laser", score);
+		else {
+			if(this.GetComponent<MonsterLaser>()!=null)
+				displayString = string.Format ("laser acquired", score);
+			else
+				displayString = string.Format ("laser fired", score);
+		}
+			
 		this.DrawOutlineText(new Rect(20, 30, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
 
         if (this.health <= 0)
