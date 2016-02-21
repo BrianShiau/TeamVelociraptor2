@@ -3,10 +3,12 @@ using System.Collections;
 
 public class PlayerArm : MonoBehaviour {
 
+	private float TimeUntilNextProjectile = 0.0f;
     public GameObject bullet;
     public float bulletSpeed;
     public bool shotgun = false;
     public bool machinegun = false;
+	public float ProjectileDelay;
 
     protected Collider2D PlayerCollider;
 
@@ -14,12 +16,14 @@ public class PlayerArm : MonoBehaviour {
 	void Start ()
 	{
 	    PlayerCollider = GetComponentInParent<Collider2D>();
+		ProjectileDelay = 1.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButtonDown(0) && this.TimeUntilNextProjectile < 0.0f)
         {
+			this.TimeUntilNextProjectile = this.ProjectileDelay;
             if (shotgun)
             {
                 Shotgun();
@@ -32,6 +36,10 @@ public class PlayerArm : MonoBehaviour {
                 Shoot();
         }
     }
+
+	void FixedUpdate(){
+		this.TimeUntilNextProjectile -= Time.fixedDeltaTime;
+	}
 
     void Shoot ()
     {

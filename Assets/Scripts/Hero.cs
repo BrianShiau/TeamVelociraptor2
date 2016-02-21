@@ -152,7 +152,7 @@ public class Hero : MonoBehaviour
 
 		this.groundMask = LayerMask.NameToLayer ("Ground");
 
-		this.health = 100;
+		this.health = 20;
 		score = 0;
 		victory = false;
 
@@ -233,7 +233,7 @@ public class Hero : MonoBehaviour
 			displayString = string.Format("{0} Deaths", this.NumDeaths);
 		}*/
 		string displayString = string.Format("Score: {0}", score);
-		healthBar.transform.localScale = new Vector3(health/100.0f, 1.0f, 1.0f);
+		healthBar.transform.localScale = new Vector3(health/15.0f, 1.0f, 1.0f);
 
 		this.DrawOutlineText(new Rect(20, 30, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
 
