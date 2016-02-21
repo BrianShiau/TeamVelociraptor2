@@ -242,8 +242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6acd4c884b7c4b5c9db3d432e5951e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   ScaleAdjustment: 1
   ScaleIterations: 5
+  CanPunch: 0
   SpawnMagnitude: 0
   GroundDetector: {fileID: 100000}
   ProjectileEmitLocator: {fileID: 148220}
@@ -263,14 +265,34 @@ MonoBehaviour:
   JumpForgivenessTimeAmount: 0
   HUDText: {fileID: 13234722, guid: 05cb476ad74084b6c8b1f911d9292899, type: 2}
   TimeAtMaxSize: 0
+  HeroController: {fileID: 0}
   ProjectileLaunchVelocity: 0
   ProjectileDelay: 1
+  FacingRight: 1
+  CanDoubleJump: 0
   BodySprites: []
   ProjectileSprites: []
   ProjectileExplosions: []
   ProjectileSprite: {fileID: 21300000, guid: 25913286cebd94ba88c9d642fc1ba721, type: 3}
   ProjectileExplosionSprite: {fileID: 0}
   health: 0
+  victory: 0
+  healthBar: {fileID: 0}
+  healthText: {fileID: 0}
+  speed: 1
+  climbSpeed: 1
+  grounded: 0
+  climbing: 0
+  nexttowall: 0
+  onplatform: 0
+  rb: {fileID: 0}
+  playerBounds: {fileID: 0}
+  _score: 0
+  PowerupAudio: {fileID: 0}
+  LaserFireClip: {fileID: 0}
+  DoubleJumpAudio: {fileID: 0}
+  DoubleJumpScore: 0
+  LaserScore: 0
   StaticMargin: 0.2
   FallingMargin: 0.5
   Gravity: 6
@@ -334,6 +356,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: climbSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: grounded
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

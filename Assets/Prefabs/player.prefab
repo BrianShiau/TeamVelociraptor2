@@ -268,7 +268,7 @@ MonoBehaviour:
   playerBounds: {fileID: 0}
   anim: {fileID: 0}
   PowerupAudio: {fileID: 8279746}
-  ShotgunScore: 2
+  ShotgunScore: 5
   MachinegunScore: 5
 --- !u!212 &21228156
 SpriteRenderer:
@@ -363,7 +363,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: ShotgunScore
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: MachinegunScore
