@@ -122,8 +122,13 @@ public class Hero : MonoBehaviour
     public AudioSource PowerupAudio;
     public AudioClip LaserFireClip;
     public AudioSource DoubleJumpAudio;
+    public GameObject BaseLaser;
     public int DoubleJumpScore;
     public int LaserScore;
+
+    [Header("Why does the hero draw gui here like really")]
+    public GameObject MonsterWinScreen;
+    public GameObject HeroWinScreen;
 
     protected void CheckPowerup(int previousScore)
     {
@@ -136,6 +141,7 @@ public class Hero : MonoBehaviour
         {
             var laser = this.AddPowerup<MonsterLaser>();
             laser.Clip = LaserFireClip;
+            laser.LaserObject = BaseLaser;
             if(PowerupAudio) PowerupAudio.Play();
         }
     }
@@ -188,7 +194,7 @@ public class Hero : MonoBehaviour
 
 	void OnGUI()
 	{
-		//this.DrawHUD(this.HUDPosition);
+		this.DrawHUD(this.HUDPosition);
 	}
 
 	void SetDoubleJumpAllowed()
@@ -259,17 +265,25 @@ public class Hero : MonoBehaviour
         if (this.health <= 0)
         {
             StartCoroutine(BlobDie());
+            /*
             style.fontSize = (int)(Screen.width * 0.1f);
             style.alignment = TextAnchor.MiddleCenter;
             string winningText = string.Format("HUMANITY IS SAVED!");
             this.DrawOutlineText(new Rect(0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
+            */
+
+            if(HeroWinScreen) HeroWinScreen.gameObject.SetActive(true);
         }
         if (this.victory)
         {
+            /*
             style.fontSize = (int)(Screen.width * 0.1f);
             style.alignment = TextAnchor.MiddleCenter;
             string winningText = string.Format("THE MONSTER WINS!");
             this.DrawOutlineText(new Rect(0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
+            */
+
+            if(MonsterWinScreen) MonsterWinScreen.gameObject.SetActive(true);
         }
     }
 

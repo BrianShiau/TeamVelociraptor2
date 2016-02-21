@@ -7,6 +7,7 @@ namespace Assets.Scripts
         protected Hero Hero;
 
         public AudioClip Clip;
+        public GameObject LaserObject;
 
         public float Range;
         public float Width;
@@ -77,6 +78,12 @@ namespace Assets.Scripts
             Physics2D.queriesHitTriggers = true;
 
             if(Clip) AudioSource.PlayClipAtPoint(Clip, transform.position);
+            if (LaserObject)
+            {
+                var newLaserObject = Instantiate(LaserObject);
+                newLaserObject.transform.position = transform.position;
+                Destroy(newLaserObject, 0.25f);
+            }
 
             Destroy(this);
         }
