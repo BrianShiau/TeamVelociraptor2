@@ -102,6 +102,15 @@ public class Person : MonoBehaviour
             {
                 TurnAround();
             }
+            else if (OnGround && !Physics2D.Linecast(transform.position, GroundSensor.position, CollisionLayers))
+            {
+                TurnAround();
+                OnGround = false;
+            }
+            else if (Physics2D.Linecast(transform.position, GroundSensor.position, CollisionLayers))
+            {
+                OnGround = true;
+            }
 
             if ((TurnChanceTimer += Time.deltaTime) > 1f)
             {
