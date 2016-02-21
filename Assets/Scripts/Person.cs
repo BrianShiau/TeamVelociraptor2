@@ -28,6 +28,8 @@ public class Person : MonoBehaviour
     public string TurningBool;
     protected int TurningBoolHash;
 
+    public ChannelVisual EvacVisual;
+
     [Header("Sound")]
     public AudioSource EvacuationLoop;
     public AudioClip EvacuationClip;
@@ -144,6 +146,7 @@ public class Person : MonoBehaviour
             if (EvacuatingPlayer != null)
             {
                 if(EvacuationLoop) EvacuationLoop.Play();
+                if (EvacVisual) EvacVisual.gameObject.SetActive(true);
 
                 CurrentState = State.Evacuating;
                 EvacTimer = 0f;
@@ -154,6 +157,7 @@ public class Person : MonoBehaviour
             if (EvacuatingPlayer == null)
             {
                 if (EvacuationLoop) EvacuationLoop.Stop();
+                if (EvacVisual) EvacVisual.gameObject.SetActive(false);
 
                 CurrentState = State.Moving;
                 EvacTimer = 0f;
@@ -165,6 +169,14 @@ public class Person : MonoBehaviour
                 if ((EvacTimer += Time.deltaTime) > EvacTime)
                 {
                     Evacuate(EvacuatingPlayer);
+                }
+                else
+                {
+                    if(EvacVisual)
+                    {
+                        EvacVisual.ChannelTime = EvacTime;
+                        EvacVisual.TimeRemaining = EvacTime - EvacTimer;
+                    }
                 }
             }
         }
