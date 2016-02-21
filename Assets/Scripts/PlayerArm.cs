@@ -23,8 +23,7 @@ public class PlayerArm : MonoBehaviour {
 
             projectile.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
 
-            var vel = (mouseOnScreen - (Vector2)transform.position) * Time.deltaTime * .1f;
-            print(vel);
+            var vel = (mouseOnScreen - (Vector2)transform.position) / Vector2.Distance(transform.position, mouseOnScreen) * Time.deltaTime * bulletSpeed;
             projectile.GetComponent<Bullet>().vel = vel;
             //projectile.GetComponent<Rigidbody2D>().velocity 
             //    = ((mouseOnScreen - positionOnScreen) / Vector2.Distance(positionOnScreen, mouseOnScreen)) * bulletSpeed;
