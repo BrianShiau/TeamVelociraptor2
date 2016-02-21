@@ -61,7 +61,7 @@ public class Player : MonoBehaviour {
     protected void CheckWallCollisions()
     {
         WallCollisions.RemoveWhere(d => !d.enabled);
-        if (!WallCollisions.Any())climbing = false;
+        if (!WallCollisions.Any()) climbing = false;
     }
 
     void OnCollisionStay2D(Collision2D c) {

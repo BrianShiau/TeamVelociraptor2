@@ -123,6 +123,23 @@ public class Person : MonoBehaviour
         Physics2D.queriesStartInColliders = true;
     }
 
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        if (!IsLethal(other.gameObject)) return;
+
+        Die();
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    public bool IsLethal(GameObject gameObject)
+    {
+        return gameObject.GetComponent<Punch>();
+    }
+
     public void TurnAround()
     {
         TurnTimer = 0f;
