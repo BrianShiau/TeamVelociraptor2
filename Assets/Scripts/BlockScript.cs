@@ -4,7 +4,7 @@ using System.Collections;
 public class BlockScript : MonoBehaviour {
 
     [SerializeField]
-    Sprite sprite_fine, sprite_damaged;
+    Sprite sprite_fine, sprite_damaged, sprite_destroyed;
 
     int health = 2;
 
@@ -22,10 +22,12 @@ public class BlockScript : MonoBehaviour {
 
     public void DamageBuilding() {
         if (--health <= 0){
-            GetComponent<SpriteRenderer>().sprite = sprite_damaged;
+			GetComponent<SpriteRenderer>().sprite = sprite_destroyed;
             GetComponent<BoxCollider2D>().enabled = false;
             damaged = true;
-        }
+		}else if (health == 1) {
+			GetComponent<SpriteRenderer> ().sprite = sprite_damaged;
+		}
     }
 
 	void OnCollisionEnter2D(Collision2D collision)
