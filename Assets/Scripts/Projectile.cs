@@ -31,10 +31,15 @@ public class Projectile : MonoBehaviour
 	void OnCollisionEnter2D(Collision2D collision)
 	{
 		Hero hero = collision.gameObject.GetComponent<Hero>();
-		if (hero == this.OwnerHero)
+		if (this.OwnerHero && hero == this.OwnerHero)
 		{
 			return;
 		}
+
+		Player player = collision.gameObject.GetComponent<Player>();
+		if (player)
+			return;
+		
 
 		if (hero != null)
 		{

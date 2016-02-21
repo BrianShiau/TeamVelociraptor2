@@ -25,7 +25,7 @@ public class Punch : MonoBehaviour
 
 	void LateUpdate ()
 	{
-		this.transform.Translate (this.Velocity * Time.deltaTime);
+		
 	}
 
     /*
