@@ -8,6 +8,7 @@ public class BlockScript : MonoBehaviour {
 
     int health = 2;
 
+    [SerializeField]
     public bool damaged = false;
 
 	// Use this for initialization

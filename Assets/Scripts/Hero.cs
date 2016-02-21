@@ -162,11 +162,11 @@ public class Hero : MonoBehaviour
 	{
 		set
 		{
-			float minYOld = this.GetComponent<Collider2D>().bounds.min.y;
+			//float minYOld = this.GetComponent<Collider2D>().bounds.min.y;
 			this.transform.localScale = new Vector3((this.FacingRight ? 1.0f : -1.0f) * value, value, 1.0f);
-			float minYNew = this.GetComponent<Collider2D>().bounds.min.y;
-			Vector3 v = this.transform.position;
-			this.transform.position = new Vector3(v.x, v.y + minYOld - minYNew, v.z);
+			//float minYNew = this.GetComponent<Collider2D>().bounds.min.y;
+			//Vector3 v = this.transform.position;
+			//this.transform.position = new Vector3(v.x, v.y + minYOld - minYNew, v.z);
 		}
 		get
 		{
@@ -176,7 +176,7 @@ public class Hero : MonoBehaviour
 
 	void OnGUI()
 	{
-		this.DrawHUD(this.HUDPosition);
+		//this.DrawHUD(this.HUDPosition);
 	}
 
 	void SetDoubleJumpAllowed()
@@ -318,7 +318,7 @@ public class Hero : MonoBehaviour
 		if (canMove)
 		{
 			this.velocity = new Vector2 (this.HeroController.HorizontalMovementAxis * this.MaxNewSpeed, this.velocity.y);
-		}
+		//}
 		else
 		{
 			this.velocity = new Vector2 (this.velocity.x * (1.0f - Mathf.Clamp01 (Time.deltaTime)), this.velocity.y);
@@ -567,15 +567,19 @@ public class Hero : MonoBehaviour
 
 
         float HoriAxis = this.HeroController.HorizontalMovementAxis;
-		if ((HoriAxis > 0 && !this.FacingRight)
+        if ((HoriAxis > 0 && !this.FacingRight)
             || (HoriAxis < 0 && this.FacingRight))
-		{
-			this.Flip();
-		}
-
-        transform.Translate(
-            HoriAxis * speed * Time.deltaTime, 0, 0);
-
+        {
+            if (!climbing) {
+                this.Flip();
+            } else {
+                transform.Translate(
+                    HoriAxis * speed * Time.deltaTime, 0, 0);
+            }
+        } else if (!climbing){
+            transform.Translate(
+                HoriAxis * speed * Time.deltaTime, 0, 0);
+        }
 		this.TimeUntilNextProjectile -= Time.fixedDeltaTime;
 
 		//this.transform.Translate (this.velocity * Time.fixedDeltaTime);
