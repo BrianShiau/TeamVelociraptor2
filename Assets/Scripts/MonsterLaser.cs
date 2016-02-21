@@ -6,6 +6,8 @@ namespace Assets.Scripts
     {
         protected Hero Hero;
 
+        public AudioClip Clip;
+
         public float Range;
         public float Width;
 
@@ -73,6 +75,8 @@ namespace Assets.Scripts
             }
 
             Physics2D.queriesHitTriggers = true;
+
+            if(Clip) AudioSource.PlayClipAtPoint(Clip, transform.position);
 
             Destroy(this);
         }
