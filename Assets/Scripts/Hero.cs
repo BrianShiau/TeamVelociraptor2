@@ -8,6 +8,8 @@ using Jolly;
 
 public class Hero : MonoBehaviour
 {
+    public Animator anim;
+
 	public float ScaleAdjustment;
 	public int ScaleIterations;
 	public Vector2 HUDPosition
@@ -90,8 +92,8 @@ public class Hero : MonoBehaviour
 	public GameObject healthBar;
 
     ////////////// My fucking amazing code ////////////////
-    public float speed = 10.0f;
-    public float climbSpeed = 10f;
+    public float speed = 1.0f;
+    public float climbSpeed = 1.0f;
 
     [SerializeField]
     private bool grounded, climbing, nexttowall, onplatform;
@@ -116,17 +118,25 @@ public class Hero : MonoBehaviour
         }
     }
 
-    private const int DoubleJumpScore = 5;
-    private const int LaserScore = 10;
+    [Header("Powerups")]
+    public AudioSource PowerupAudio;
+    public AudioClip LaserFireClip;
+    public AudioSource DoubleJumpAudio;
+    public int DoubleJumpScore;
+    public int LaserScore;
+
     protected void CheckPowerup(int previousScore)
     {
         if (previousScore < DoubleJumpScore && score >= DoubleJumpScore)
         {
             this.AddPowerup<MonsterDoubleJump>(10f);
+            if(PowerupAudio) PowerupAudio.Play();
         }
         else if (previousScore < LaserScore && score >= LaserScore)
         {
-            this.AddPowerup<MonsterLaser>();
+            var laser = this.AddPowerup<MonsterLaser>();
+            laser.Clip = LaserFireClip;
+            if(PowerupAudio) PowerupAudio.Play();
         }
     }
 
@@ -137,6 +147,8 @@ public class Hero : MonoBehaviour
 
 	void Start ()
 	{
+        anim = gameObject.GetComponentInChildren<Animator>();
+
 		this.HeroController = this.GetComponent<HeroController>();
 		//this.GetComponentInChildren<SpriteRenderer>().sprite = this.BodySprites[this.HeroController.PlayerNumber];
 		this.ProjectileSprite = this.ProjectileSprites[this.HeroController.PlayerNumber];
@@ -150,7 +162,7 @@ public class Hero : MonoBehaviour
 
 		this.groundMask = LayerMask.NameToLayer ("Ground");
 
-		this.health = 100;
+		this.health = 20;
 		score = 0;
 		victory = false;
 
@@ -231,31 +243,63 @@ public class Hero : MonoBehaviour
 			displayString = string.Format("{0} Deaths", this.NumDeaths);
 		}*/
 		string displayString = string.Format("Score: {0}", score);
-		healthBar.transform.localScale = new Vector3(health/100.0f, 1.0f, 1.0f);
+		healthBar.transform.localScale = new Vector3(health/20.0f, 1.0f, 1.0f);
 
 		this.DrawOutlineText(new Rect(20, 30, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
 
-		if (this.health <= 0) {
-			style.fontSize = (int)(Screen.width * 0.1f);
-			style.alignment = TextAnchor.MiddleCenter;
-			string winningText = string.Format ("HUMANITY IS SAVED!");
-			this.DrawOutlineText (new Rect (0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
-		}
-		if (this.victory) {
-			style.fontSize = (int)(Screen.width * 0.1f);
-			style.alignment = TextAnchor.MiddleCenter;
-			string winningText = string.Format ("THE MONSTER WINS!");
-			this.DrawOutlineText (new Rect (0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
-		}
-	}
+        if (this.health <= 0)
+        {
+            StartCoroutine(BlobDie());
+            style.fontSize = (int)(Screen.width * 0.1f);
+            style.alignment = TextAnchor.MiddleCenter;
+            string winningText = string.Format("HUMANITY IS SAVED!");
+            this.DrawOutlineText(new Rect(0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
+        }
+        if (this.victory)
+        {
+            style.fontSize = (int)(Screen.width * 0.1f);
+            style.alignment = TextAnchor.MiddleCenter;
+            string winningText = string.Format("THE MONSTER WINS!");
+            this.DrawOutlineText(new Rect(0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
+        }
+    }
 
-	bool CanJumpOffGround()
-	{
-		return (this.grounded || this.JumpForgivenessTimeLeft > 0.0f);
-	}
+    bool CanJumpOffGround()
+    {
+        return (this.grounded || this.JumpForgivenessTimeLeft > 0.0f);
+    }
 
-	void Update ()
-	{
+    IEnumerator BlobAttack()
+    {
+        anim.SetBool("BlobAttack", true);
+        yield return new WaitForSeconds(.2f);
+        anim.SetBool("BlobAttack", false);
+    }
+
+    IEnumerator BlobDie()
+    {
+        anim.SetBool("BlobDie", true);
+        yield return new WaitForSeconds(1);
+        Destroy(gameObject);
+    }
+
+    void Update()
+    {
+        if (grounded && !climbing)
+            anim.SetBool("BlobJump", false);
+        else
+            anim.SetBool("BlobJump", true);
+
+        if (climbing)
+            anim.SetBool("BlobClimb", true);
+        else
+            anim.SetBool("BlobClimb", false);
+
+        float HoriAxis = this.HeroController.HorizontalMovementAxis;
+        if (HoriAxis != 0)
+            anim.SetBool("BlobWalk", true);
+        else
+            anim.SetBool("BlobWalk", false);
         /*
 		if (this.RespawnTimeLeft > 0.0f)
 		{
@@ -270,14 +314,16 @@ public class Hero : MonoBehaviour
         */
 
 
-		this.JumpForgivenessTimeLeft -= Time.deltaTime;
+        this.JumpForgivenessTimeLeft -= Time.deltaTime;
 
 		bool canAct = !this.IsChanneling && !this.Stomping && !this.IsStunned();
 		if (canAct)
 		{
 			if (this.HeroController.Shooting && CanPunch && this.TimeUntilNextProjectile < 0.0f)
 			{
-				this.TimeUntilNextProjectile = this.ProjectileDelay;
+                StartCoroutine(BlobAttack());
+
+                this.TimeUntilNextProjectile = this.ProjectileDelay;
 				//GameObject projectile = (GameObject)GameObject.Instantiate(this.Projectile, this.ProjectileEmitLocator.transform.position, Quaternion.identity);
 				GameObject projectile = (GameObject)GameObject.Instantiate(this.Punch, this.ProjectileEmitLocator.transform.position, Quaternion.identity);
 				projectile.GetComponent<SpriteRenderer>().sprite = this.ProjectileSprite;
@@ -307,12 +353,12 @@ public class Hero : MonoBehaviour
 			GameObject scoreKeeper = GameObject.Find("ScoreKeeper");
 			scoreKeeper.GetComponent<ScoreKeeper>().ResetGame();
 		}
-
+        */
 		if (this.grounded)
 		{
 			this.SetDoubleJumpAllowed();
 		}
-
+        /*
 		bool canMove = !this.IsChanneling && !this.Stomping && !this.IsStunned();
 
 		if (canMove)
@@ -323,7 +369,7 @@ public class Hero : MonoBehaviour
 		{
 			this.velocity = new Vector2 (this.velocity.x * (1.0f - Mathf.Clamp01 (Time.deltaTime)), this.velocity.y);
 		}
-
+        */
 		if (canAct)
 		{
 			if (this.HeroController.Jump)
@@ -337,9 +383,14 @@ public class Hero : MonoBehaviour
 					{
 						this.CanDoubleJump = false;
 						doubleJumped = true;
-					}
-					this.velocity = new Vector2 (this.velocity.x, this.Jump);
+                        
+                        // wonky double jump ????
 
+					    if (DoubleJumpAudio) DoubleJumpAudio.Play();
+                        rb.velocity = new Vector2(rb.velocity.x, this.Jump);
+                    }
+
+                    /*
 					if (doubleJumped)
 					{
 						SoundFX.Instance.OnHeroDoubleJumped(this);
@@ -348,10 +399,11 @@ public class Hero : MonoBehaviour
 					{
 						SoundFX.Instance.OnHeroJumped(this);
 					}
+                    */
 				}
 			}
 		}
-
+        /*
 		this.canChannelGrow = !this.falling && Physics2D.Linecast(this.transform.position, this.GroundDetector.transform.position, 1 << LayerMask.NameToLayer ("Ground"));
 
 		if (this.canChannelGrow)
@@ -394,7 +446,7 @@ public class Hero : MonoBehaviour
                     gameObject.layer = LayerMask.NameToLayer("Hero Climbing");
                 } else if (grounded){
                     grounded = false;
-                    rb.AddForce(new Vector2(0, 500000000));
+                    rb.AddForce(new Vector2(0, 500000000/2));
                 }
             }
         }
@@ -763,6 +815,9 @@ public class Hero : MonoBehaviour
 		this.transform.localPosition = Vector3.zero;
 		this.RespawnTimeCalculated = this.RespawnTime;
 		this.NumDeaths = 0;
+
+        DoubleJumpScore = 2;
+        LaserScore = 5;
     }
 
 	void Respawn()

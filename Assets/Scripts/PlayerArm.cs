@@ -3,20 +3,27 @@ using System.Collections;
 
 public class PlayerArm : MonoBehaviour {
 
+	private float TimeUntilNextProjectile = 0.0f;
     public GameObject bullet;
     public float bulletSpeed;
     public bool shotgun = false;
     public bool machinegun = false;
+	public float ProjectileDelay;
+
+    protected Collider2D PlayerCollider;
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+	    PlayerCollider = GetComponentInParent<Collider2D>();
+		ProjectileDelay = 1.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButtonDown(0) && this.TimeUntilNextProjectile < 0.0f)
         {
+			this.TimeUntilNextProjectile = this.ProjectileDelay;
             if (shotgun)
             {
                 Shotgun();
@@ -30,6 +37,10 @@ public class PlayerArm : MonoBehaviour {
         }
     }
 
+	void FixedUpdate(){
+		this.TimeUntilNextProjectile -= Time.fixedDeltaTime;
+	}
+
     void Shoot ()
     {
         Vector2 mouseOnScreen = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -41,11 +52,13 @@ public class PlayerArm : MonoBehaviour {
 
         var vel = (mouseOnScreen - (Vector2)transform.position) / Vector2.Distance(transform.position, mouseOnScreen) * Time.deltaTime * bulletSpeed;
         projectile.GetComponent<Bullet>().vel = vel;
+
+        Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), PlayerCollider);
     }
 
     void Shotgun()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 2; i++)
         {
             float randX = Random.Range(-.5f, .5f);
             float randY = Random.Range(-.5f, .5f);
@@ -58,6 +71,8 @@ public class PlayerArm : MonoBehaviour {
 
             var vel = (mouseOnScreen - (Vector2)transform.position) / Vector2.Distance(transform.position, mouseOnScreen) * Time.deltaTime * bulletSpeed;
             projectile.GetComponent<Bullet>().vel = vel;
+
+            Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), PlayerCollider);
         }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts;
 
 public class Player : MonoBehaviour {
 
@@ -44,10 +45,17 @@ public class Player : MonoBehaviour {
     private Collider2D[] evacCheckResults;
     private const int maxEvacChecks = 32;
 
+    [Header("Powerups")]
+    public AudioSource PowerupAudio;
+    public int ShotgunScore;
+    public int MachinegunScore;
+
     public void Reset()
     {
         EvacRadius = 1f;
         EvacLayer = 1 << LayerMask.NameToLayer("People");
+        ShotgunScore = 2;
+        MachinegunScore = 5;
     }
 
     public void Awake()
@@ -59,9 +67,18 @@ public class Player : MonoBehaviour {
         evacCheckResults = new Collider2D[maxEvacChecks];
     }
 
-    public void CheckPowerup(int previousPeopleEvacuated)
+    public void CheckPowerup(int previousScore)
     {
-        // ???
+        if (previousScore < ShotgunScore && PeopleEvacuated >= ShotgunScore)
+        {
+            this.AddPowerup<PlayerShotgun>(10f);
+            if(PowerupAudio) PowerupAudio.Play();
+        }
+        else if (previousScore < MachinegunScore && PeopleEvacuated >= MachinegunScore)
+        {
+            this.AddPowerup<PlayerMachineGun>(10f);
+            if(PowerupAudio) PowerupAudio.Play();
+        }
     }
 
     // Use this for initialization

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class Person : MonoBehaviour
@@ -30,6 +27,12 @@ public class Person : MonoBehaviour
 
     public string TurningBool;
     protected int TurningBoolHash;
+
+    public ChannelVisual EvacVisual;
+
+    [Header("Sound")]
+    public AudioSource EvacuationLoop;
+    public AudioClip EvacuationClip;
 
     [Header("Debug")]
     public State CurrentState;
@@ -102,6 +105,15 @@ public class Person : MonoBehaviour
             {
                 TurnAround();
             }
+            else if (OnGround && !Physics2D.Linecast(transform.position, GroundSensor.position, CollisionLayers))
+            {
+                TurnAround();
+                OnGround = false;
+            }
+            else if (Physics2D.Linecast(transform.position, GroundSensor.position, CollisionLayers))
+            {
+                OnGround = true;
+            }
 
             if ((TurnChanceTimer += Time.deltaTime) > 1f)
             {
@@ -133,6 +145,9 @@ public class Person : MonoBehaviour
         {
             if (EvacuatingPlayer != null)
             {
+                if(EvacuationLoop) EvacuationLoop.Play();
+                if (EvacVisual) EvacVisual.gameObject.SetActive(true);
+
                 CurrentState = State.Evacuating;
                 EvacTimer = 0f;
             }
@@ -141,6 +156,9 @@ public class Person : MonoBehaviour
         {
             if (EvacuatingPlayer == null)
             {
+                if (EvacuationLoop) EvacuationLoop.Stop();
+                if (EvacVisual) EvacVisual.gameObject.SetActive(false);
+
                 CurrentState = State.Moving;
                 EvacTimer = 0f;
             }
@@ -151,6 +169,14 @@ public class Person : MonoBehaviour
                 if ((EvacTimer += Time.deltaTime) > EvacTime)
                 {
                     Evacuate(EvacuatingPlayer);
+                }
+                else
+                {
+                    if(EvacVisual)
+                    {
+                        EvacVisual.ChannelTime = EvacTime;
+                        EvacVisual.TimeRemaining = EvacTime - EvacTimer;
+                    }
                 }
             }
         }
@@ -175,6 +201,8 @@ public class Person : MonoBehaviour
 
     public void Evacuate(Player player)
     {
+        if (EvacuationClip) AudioSource.PlayClipAtPoint(EvacuationClip, transform.position);
+
         ++player.PeopleEvacuated;
         Destroy(gameObject);
     }
