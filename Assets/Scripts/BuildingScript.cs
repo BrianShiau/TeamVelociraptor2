@@ -29,22 +29,14 @@ public class BuildingScript : MonoBehaviour {
                 building[j,i].parent = transform;
             }
         }
-        done = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (done){
-            for (int i = 0; i < cols - 1; i++){
-                building[1,i].gameObject.GetComponent<BlockScript>().DamageBuilding();
-            }
-            done = false;
-        }
-	}
-
-    public void CheckBuilding(){
+        int n_gone = 0;
         for (int j = 0; j < rows; j++){
             if (!present[j]){
+                n_gone++;
                 continue;
             }
             int n_damaged = 0;
@@ -61,5 +53,9 @@ public class BuildingScript : MonoBehaviour {
                 }
             }
         }
-    }
+        if (n_gone >= rows){
+            // Drop powerup
+            Destroy(gameObject);
+        }
+	}
 }
