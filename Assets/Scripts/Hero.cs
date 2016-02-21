@@ -21,6 +21,9 @@ public class Hero : MonoBehaviour
 			return Vector2.zero;
 		}
 	}
+
+    public bool CanPunch;
+
 	public float SpawnMagnitude;
 	public GameObject GroundDetector;
 	public GameObject ProjectileEmitLocator;
@@ -48,13 +51,13 @@ public class Hero : MonoBehaviour
 	public GUIText HUDText;
 	public float TimeAtMaxSize;
 
-	private HeroController HeroController;
+	public HeroController HeroController;
 
 	public float ProjectileLaunchVelocity;
 	public float ProjectileDelay;
 	private float TimeUntilNextProjectile = 0.0f;
 
-	private bool FacingRight = true;
+	public bool FacingRight = true;
 
 	private bool Stomping = false;
 	private float RespawnTimeCalculated = 0.0f;
@@ -65,7 +68,7 @@ public class Hero : MonoBehaviour
 	private GameObject ChannelVisualInstance;
 	private GameObject MaxVisualInstance;
 	private GameObject StunVisualInstance;
-	private bool CanDoubleJump;
+	public bool CanDoubleJump;
 	private bool GroundedLastFrame;
 	private float StartScale;
 	private float StartWidth;
@@ -91,6 +94,8 @@ public class Hero : MonoBehaviour
 		this.SetGrowStage(0);
 		this.StartWidth = this.GetComponent<Collider2D>().bounds.size.x;
 		this.RespawnTimeCalculated = this.RespawnTime;
+
+	    CanPunch = true;
 
 		this.groundMask = LayerMask.NameToLayer ("Ground");
 
@@ -198,7 +203,7 @@ public class Hero : MonoBehaviour
 		bool canAct = !this.IsChanneling && !this.Stomping && !this.IsStunned();
 		if (canAct)
 		{
-			if (this.HeroController.Shooting && this.TimeUntilNextProjectile < 0.0f)
+			if (this.HeroController.Shooting && CanPunch && this.TimeUntilNextProjectile < 0.0f)
 			{
 				this.TimeUntilNextProjectile = this.ProjectileDelay;
 				//GameObject projectile = (GameObject)GameObject.Instantiate(this.Projectile, this.ProjectileEmitLocator.transform.position, Quaternion.identity);
@@ -251,7 +256,7 @@ public class Hero : MonoBehaviour
 			if (this.HeroController.Jump)
 			{
 				bool isJumpingOffGround = this.CanJumpOffGround();
-				if (isJumpingOffGround /*|| this.CanDoubleJump*/)
+				if (isJumpingOffGround || this.CanDoubleJump)
 				{
 					bool doubleJumped = false;
 
@@ -427,6 +432,7 @@ public class Hero : MonoBehaviour
 						Stomping = false;
 						this.JumpForgivenessTimeLeft = this.JumpForgivenessTimeAmount;
 						grounded = true;
+
 						if (falling)
 						{
 							this.transform.Translate (Vector3.down * (raycastHit.distance - this.StaticMargin));

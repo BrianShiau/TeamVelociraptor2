@@ -86,8 +86,8 @@ public class Person : MonoBehaviour
         {
             vx = FacingForward ? RunSpeed : -RunSpeed;
 
-            if (Physics2D.Linecast(transform.position, LeftSensor.position, CollisionLayers) ||
-                Physics2D.Linecast(transform.position, RightSensor.position, CollisionLayers))
+            if ((!FacingForward && Physics2D.Linecast(transform.position, LeftSensor.position, CollisionLayers)) ||
+                (FacingForward && Physics2D.Linecast(transform.position, RightSensor.position, CollisionLayers)))
             {
                 TurnAround();
             }
