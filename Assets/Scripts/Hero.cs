@@ -237,7 +237,7 @@ public class Hero : MonoBehaviour
 			displayString = string.Format("{0} Deaths", this.NumDeaths);
 		}*/
 		string displayString = string.Format("Score: {0}", score);
-		healthBar.transform.localScale = new Vector3(health/15.0f, 1.0f, 1.0f);
+		healthBar.transform.localScale = new Vector3(health/20.0f, 1.0f, 1.0f);
 
 		this.DrawOutlineText(new Rect(20, 30, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
 
@@ -379,7 +379,7 @@ public class Hero : MonoBehaviour
 						doubleJumped = true;
                         
                         // wonky double jump ????
-                        rb.velocity = new Vector2(rb.velocity.x, this.Jump);
+                        //rb.velocity = new Vector2(rb.velocity.x, this.Jump);
                     }
 
                     /*
