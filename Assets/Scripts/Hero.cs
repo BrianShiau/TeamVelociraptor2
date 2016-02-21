@@ -82,6 +82,8 @@ public class Hero : MonoBehaviour
 	private GameObject MaxSizeSound;
 	private int NumDeaths;
 
+    private bool leftwall = false;
+
 	public Sprite[] BodySprites;
 	public Sprite[] ProjectileSprites;
 	public Sprite[] ProjectileExplosions;
@@ -663,6 +665,8 @@ public class Hero : MonoBehaviour
             } else {
                 transform.Translate(
                     HoriAxis * speed * Time.deltaTime, 0, 0);
+                climbing = false;
+                gameObject.layer = LayerMask.NameToLayer("Hero");
             }
         } else if (!climbing){
             transform.Translate(
@@ -670,7 +674,6 @@ public class Hero : MonoBehaviour
         }
 		this.TimeUntilNextProjectile -= Time.fixedDeltaTime;
 
-		//this.transform.Translate (this.velocity * Time.fixedDeltaTime);
         CheckWallCollisions();
     }
 
@@ -892,6 +895,9 @@ public class Hero : MonoBehaviour
                 && c.gameObject.CompareTag("Wall")
                 && playerBounds.bounds.min.y > c.collider.bounds.min.y - .1f)
         {
+            if (leftwall ^ this.FacingRight){
+                this.Flip();
+            }
             if (!WallCollisions.Contains(c.collider))
                 WallCollisions.Add(c.collider);
             climbing = true;
@@ -921,6 +927,7 @@ public class Hero : MonoBehaviour
 		//this.gameObject.layer = LayerMask.NameToLayer ("Hero Platforms");
         if (other.tag == "Wall"){
             nexttowall = true;
+            leftwall = other.gameObject.GetComponent<BlockTriggerScript>().left;
         } else if (other.tag == "Platform" && rb.velocity.y < 0){
             gameObject.layer = LayerMask.NameToLayer("Hero Platform");
             onplatform = true;

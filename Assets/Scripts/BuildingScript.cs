@@ -36,11 +36,13 @@ public class BuildingScript : MonoBehaviour {
                 Quaternion.identity));
             walltriggers[j, 0].parent = transform;
             wallposes[j,0] = 0;
+            walltriggers[j, 0].gameObject.GetComponent<BlockTriggerScript>().left = true;
             walltriggers[j, 1] = ((Transform)Instantiate(
                 BlockWallTransform,
                 origin + new Vector3(cols, -j, 0),
                 Quaternion.identity));
             walltriggers[j, 1].parent = transform;
+            walltriggers[j, 1].gameObject.GetComponent<BlockTriggerScript>().left = false;
             wallposes[j,1] = cols;
             for (int i = 0; i < cols; i++){
 				Vector3 CurrPos = origin + new Vector3(i , -j, 0);
@@ -90,6 +92,8 @@ public class BuildingScript : MonoBehaviour {
             }
             if (n_damaged == cols){
                 present[j] = false;
+                walltriggers[j,0].gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                walltriggers[j,1].gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 for (int y = 0; y < j; y++){
                     for (int i = 0; i < cols; i++){
                         if (y == 0){

@@ -207,7 +207,7 @@ public class Player : MonoBehaviour {
         //Climbing the platforms 
         if (gameObject.layer == LayerMask.NameToLayer("Hero Platform")
                 && c.gameObject.CompareTag("Platform")
-                && playerBounds.bounds.min.y > c.collider.bounds.min.y - .1f)
+                && playerBounds.bounds.max.y > c.collider.bounds.min.y - .1f)
         {
             if (!WallCollisions.Contains(c.collider))
                 WallCollisions.Add(c.collider);

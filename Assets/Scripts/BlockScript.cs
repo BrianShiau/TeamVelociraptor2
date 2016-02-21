@@ -15,11 +15,6 @@ public class BlockScript : MonoBehaviour {
 	void Start () {
         tag = "Wall";
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     public void DamageBuilding() {
         if (--health <= 0){

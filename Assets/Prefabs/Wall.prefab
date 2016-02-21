@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11447554}
   m_Layer: 0
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e1da825ed5040459227b274e96ead0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  left: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
