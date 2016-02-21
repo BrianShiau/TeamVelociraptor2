@@ -127,6 +127,7 @@ public class Person : MonoBehaviour
     {
         if (!IsLethal(other.gameObject)) return;
 
+		other.gameObject.GetComponent<Punch>().OwnerHero.score++;
         Die();
     }
 

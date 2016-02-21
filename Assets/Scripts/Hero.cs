@@ -80,6 +80,7 @@ public class Hero : MonoBehaviour
 	public Sprite ProjectileExplosionSprite;
 
 	public int health;
+	public int score;
 
 	void Start ()
 	{
@@ -95,6 +96,7 @@ public class Hero : MonoBehaviour
 		this.groundMask = LayerMask.NameToLayer ("Ground");
 
 		this.health = 100;
+		score = 0;
 	}
 
 	private float scale
@@ -169,7 +171,7 @@ public class Hero : MonoBehaviour
 		{
 			displayString = string.Format("{0} Deaths", this.NumDeaths);
 		}*/
-		string displayString = string.Format("{0} HP", health);
+		string displayString = string.Format("{0} HP\nScore: {1}", health, score);
 
 		this.DrawOutlineText(new Rect((position.x + iconSizeWidth * 1.25f) / 1920.0f * Screen.width, 0, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
 	}
