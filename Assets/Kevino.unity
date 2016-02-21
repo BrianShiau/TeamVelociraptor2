@@ -1250,7 +1250,7 @@ Transform:
   - {fileID: 652365820}
   - {fileID: 565764402}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &867892727
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,8 +1339,8 @@ MonoBehaviour:
   rows: 5
   cols: 10
   BlockTransform: {fileID: 413056, guid: 06336b9d9f3328648a5858ee88ce0ab6, type: 2}
-  BlockTriggerTransform: {fileID: 448774, guid: a083964d23bc6b84cb7e8f29445f2303,
-    type: 2}
+  BlockWallTransform: {fileID: 448774, guid: a083964d23bc6b84cb7e8f29445f2303, type: 2}
+  PlatformTransform: {fileID: 419536, guid: 8ee1df3e130be2f4c97cab7cc9bd9f12, type: 2}
 --- !u!4 &964411967
 Transform:
   m_ObjectHideFlags: 0
@@ -1352,7 +1352,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &974762396
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,7 +1430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &996377757
 Rigidbody2D:
   serializedVersion: 2
@@ -1475,11 +1475,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   climbSpeed: 10
+  move: 0
   grounded: 0
   climbing: 0
   nexttowall: 0
+  onplatform: 0
   rb: {fileID: 0}
   playerBounds: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!23 &996377760
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1525,7 +1528,7 @@ Transform:
   m_Children:
   - {fileID: 1423363067}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!1 &1000791155
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,7 +1724,7 @@ Transform:
   m_Children:
   - {fileID: 1860972127}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
 --- !u!1 &1047567143
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,7 +2175,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
 --- !u!1 &1219245695
 GameObject:
   m_ObjectHideFlags: 0
@@ -2405,6 +2408,72 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!1001 &1387650185
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 477332, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -2.2119539
+      objectReference: {fileID: 0}
+    - target: {fileID: 477332, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.3220861
+      objectReference: {fileID: 0}
+    - target: {fileID: 477332, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477332, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477332, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477332, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477332, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 477332, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 180404, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_Name
+      value: player (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6172636, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_Offset.x
+      value: 0.10398626
+      objectReference: {fileID: 0}
+    - target: {fileID: 6172636, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_Size.x
+      value: 9.903406
+      objectReference: {fileID: 0}
+    - target: {fileID: 6172636, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_Offset.y
+      value: -0.3830719
+      objectReference: {fileID: 0}
+    - target: {fileID: 6172636, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_Size.y
+      value: 14.764633
+      objectReference: {fileID: 0}
+    - target: {fileID: 180404, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1406237444
 GameObject:
   m_ObjectHideFlags: 0

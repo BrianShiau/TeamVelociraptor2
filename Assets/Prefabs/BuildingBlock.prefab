@@ -12,9 +12,9 @@ GameObject:
   - 61: {fileID: 6138396}
   - 95: {fileID: 9560406}
   - 114: {fileID: 11475004}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: BuildingBlock
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,9 +42,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.05, y: 0.05}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.5, y: 3.5}
 --- !u!95 &9560406
 Animator:
   serializedVersion: 3
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite_fine: {fileID: 21300000, guid: c08ae6e0c30e64fa4ba54defb6f58efd, type: 3}
   sprite_damaged: {fileID: 21300000, guid: 95cd60f5e341041ea9fa25fe81770038, type: 3}
-  sprite_destroyed: {fileID: 21300000, guid: 7cf1cf04f29154ff394bb9ebaffb1245, type: 3}
+  sprite_destroyed: {fileID: 0}
   damaged: 0
 --- !u!212 &21274354
 SpriteRenderer:
@@ -131,7 +131,7 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: m_Layer
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsKinematic
@@ -143,11 +143,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Offset.x
-      value: 0
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Offset.y
-      value: 0.2
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
@@ -166,6 +166,14 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 7cf1cf04f29154ff394bb9ebaffb1245,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Size.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.y
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 159820}

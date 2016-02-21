@@ -711,7 +711,7 @@ public class Hero : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		this.gameObject.layer = LayerMask.NameToLayer ("IgnorePlatforms");
+		//this.gameObject.layer = LayerMask.NameToLayer ("Hero Platforms");
 	}
 
 	void OnTriggerExit2D(Collider2D other)

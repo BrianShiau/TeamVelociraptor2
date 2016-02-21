@@ -8,9 +8,10 @@ public class Player : MonoBehaviour {
     public float speed = 10.0f;
     public float climbSpeed = 10f;
     public float move = 0;
-    public bool grounded = false;
-    public bool climbing = false;
-    public bool nexttowall = false;
+
+    [SerializeField]
+    private bool grounded, climbing, nexttowall, onplatform;
+
     public Rigidbody2D rb;
     public Collider2D playerBounds;
     public Animator anim;
@@ -77,7 +78,7 @@ public class Player : MonoBehaviour {
     protected void CheckWallCollisions()
     {
         WallCollisions.RemoveWhere(d => !d.enabled);
-        if (!nexttowall && !WallCollisions.Any()) {
+        if (!(nexttowall || onplatform) && !WallCollisions.Any()) {
             climbing = false;
             gameObject.layer = LayerMask.NameToLayer("Hero");
         }
@@ -117,28 +118,39 @@ public class Player : MonoBehaviour {
             climbing = true;
             rb.velocity = new Vector2(0,0);
         }
+        //Climbing the platforms 
+        if (gameObject.layer == LayerMask.NameToLayer("Hero Platform")
+                && c.gameObject.CompareTag("Platform")
+                && playerBounds.bounds.min.y > c.collider.bounds.min.y - .1f)
+        {
+            if (!WallCollisions.Contains(c.collider))
+                WallCollisions.Add(c.collider);
+            grounded = true;
+            onplatform = true;
+        }
     }
 
     void OnCollisionExit2D(Collision2D c)
     {
         WallCollisions.Remove(c.collider);
 
-        if (!WallCollisions.Any()){
-        }
-
         grounded = false;
-        //climbing = false;
     }
 
     void OnTriggerStay2D (Collider2D other){
         if (other.tag == "Wall"){
             nexttowall = true;
+        } else if (other.tag == "Platform" && rb.velocity.y < 0){
+            gameObject.layer = LayerMask.NameToLayer("Hero Platform");
+            onplatform = true;
         }
     }
 
     void OnTriggerExit2D (Collider2D other){
         if (other.tag == "Wall"){
             nexttowall = false;
+        } else if (other.tag == "Platform"){
+            onplatform = false;
         }
     }
 }
