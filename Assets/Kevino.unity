@@ -1336,9 +1336,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aff827b061a80c45b6f85a7b900af40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows: 10
+  rows: 5
   cols: 10
   BlockTransform: {fileID: 413056, guid: 06336b9d9f3328648a5858ee88ce0ab6, type: 2}
+  BlockTriggerTransform: {fileID: 448774, guid: a083964d23bc6b84cb7e8f29445f2303,
+    type: 2}
 --- !u!4 &964411967
 Transform:
   m_ObjectHideFlags: 0
@@ -1422,9 +1424,9 @@ GameObject:
   - 114: {fileID: 996377759}
   - 61: {fileID: 996377758}
   - 50: {fileID: 996377757}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1475,7 +1477,7 @@ MonoBehaviour:
   climbSpeed: 10
   grounded: 0
   climbing: 0
-  onCorner: 0
+  nexttowall: 0
   rb: {fileID: 0}
   playerBounds: {fileID: 0}
 --- !u!23 &996377760
@@ -2498,7 +2500,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1423363067}
   - 114: {fileID: 1423363068}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2539,7 +2541,7 @@ GameObject:
   - 4: {fileID: 1518788207}
   - 212: {fileID: 1518788209}
   - 114: {fileID: 1518788208}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: bg_grasslands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2564,13 +2566,15 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1518788206}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2b88e7485f0f4ddf8f4301de21508dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 100000, guid: bbfe1742032334cdca96228680379636, type: 2}
+  bullet: {fileID: 175824, guid: 41f3c269ed244264fbfd9c7f89887651, type: 2}
   bulletSpeed: 10
+  shotgun: 0
+  machinegun: 0
 --- !u!212 &1518788209
 SpriteRenderer:
   m_ObjectHideFlags: 0

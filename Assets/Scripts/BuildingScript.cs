@@ -2,14 +2,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Jolly;
 
 public class BuildingScript : MonoBehaviour {
 
     [SerializeField]
     int rows, cols;
     [SerializeField]
-    Transform BlockTransform;
+    Transform BlockTransform, BlockWallTransform, PlatformTransform;
 
     bool[] present;
     Transform[,] building;
@@ -29,6 +28,25 @@ public class BuildingScript : MonoBehaviour {
 					BlockTransform,
 					CurrPos, 
 					Quaternion.identity);
+                if (j == 0) {
+                    ((Transform)Instantiate(
+                        PlatformTransform,
+                        CurrPos, 
+                        Quaternion.identity)).parent = transform;
+                }
+                if (i == 0) {
+                    ((Transform)Instantiate(
+                        BlockWallTransform,
+                        CurrPos, 
+                        Quaternion.identity)).parent = transform;
+                }
+                if (i == cols - 1){
+                    CurrPos += new Vector3(1, 0, 0);
+                    ((Transform)Instantiate(
+                        BlockWallTransform,
+                        CurrPos, 
+                        Quaternion.identity)).parent = transform;
+                }
                 building[j,i].parent = transform;
             }
         }

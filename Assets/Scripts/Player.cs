@@ -9,7 +9,7 @@ public class Player : MonoBehaviour {
     public float climbSpeed = 10f;
     public bool grounded = false;
     public bool climbing = false;
-    public bool onCorner = false;
+    public bool nexttowall = false;
     public Rigidbody2D rb;
     public Collider2D playerBounds;
 
@@ -28,21 +28,27 @@ public class Player : MonoBehaviour {
 	
 	void Update () {
         //Jump is placed in Update for responsiveness
-        if (grounded && Input.GetKey("up"))
-        {
-            grounded = false;
-            rb.AddForce(new Vector2(0, 500));
-        }
-        //For climbing
-        if (climbing && Input.GetKey("up"))
-        {
-            transform.Translate(0, climbSpeed * Time.deltaTime, 0);
+        if (Input.GetKey("up")){
+            if (climbing)
+            {
+                transform.Translate(0, climbSpeed * Time.deltaTime, 0);
+
+            } else {
+                if (nexttowall){
+                    rb.velocity = new Vector2(0,0);
+                    gameObject.layer = LayerMask.NameToLayer("Hero Climbing");
+                } else if (grounded){
+                    grounded = false;
+                    rb.AddForce(new Vector2(0, 500));
+                }
+            }
         }
         if (climbing && Input.GetKey("down"))
         {
             transform.Translate(0, -climbSpeed * Time.deltaTime, 0);
         }
 
+        
         //Disable gravity for climbing
         if (climbing)
             rb.gravityScale = 0;
@@ -61,7 +67,10 @@ public class Player : MonoBehaviour {
     protected void CheckWallCollisions()
     {
         WallCollisions.RemoveWhere(d => !d.enabled);
-        if (!WallCollisions.Any()) climbing = false;
+        if (!nexttowall && !WallCollisions.Any()) {
+            climbing = false;
+            gameObject.layer = LayerMask.NameToLayer("Hero");
+        }
     }
 
     void OnCollisionEnter2D(Collision2D c)
@@ -75,18 +84,21 @@ public class Player : MonoBehaviour {
 
     void OnCollisionStay2D(Collision2D c) {
         //Used for jumping
-        if (playerBounds.bounds.min.y >= c.collider.bounds.max.y - .1f && !onCorner) {
+        if (!climbing
+                && playerBounds.bounds.min.y >= c.collider.bounds.max.y - .1f) {
             // - .1f is for some error
             grounded = true;
         }
 
         //Climbing the wall
-        if (c.gameObject.CompareTag("Wall") && playerBounds.bounds.min.y > c.collider.bounds.min.y - .1f)
+        if (gameObject.layer == LayerMask.NameToLayer("Hero Climbing")
+                && c.gameObject.CompareTag("Wall")
+                && playerBounds.bounds.min.y > c.collider.bounds.min.y - .1f)
         {
-            if (!WallCollisions.Contains(c.collider)) WallCollisions.Add(c.collider);
-
-            rb.velocity = new Vector2(0,0);
+            if (!WallCollisions.Contains(c.collider))
+                WallCollisions.Add(c.collider);
             climbing = true;
+            rb.velocity = new Vector2(0,0);
         }
     }
 
@@ -94,7 +106,22 @@ public class Player : MonoBehaviour {
     {
         WallCollisions.Remove(c.collider);
 
+        if (!WallCollisions.Any()){
+        }
+
         grounded = false;
-        climbing = false;
+        //climbing = false;
+    }
+
+    void OnTriggerStay2D (Collider2D other){
+        if (other.tag == "Wall"){
+            nexttowall = true;
+        }
+    }
+
+    void OnTriggerExit2D (Collider2D other){
+        if (other.tag == "Wall"){
+            nexttowall = false;
+        }
     }
 }

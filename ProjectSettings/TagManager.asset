@@ -18,11 +18,11 @@ TagManager:
   - Ground
   - Projectile
   - IgnorePlatforms
-  - Building
+  - 
   - Hero
-  - 
-  - 
-  - 
+  - Hero Jumping
+  - Hero Climbing
+  - Building
   - 
   - 
   - 
