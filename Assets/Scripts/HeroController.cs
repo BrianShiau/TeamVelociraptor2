@@ -34,6 +34,15 @@ public class HeroController : MonoBehaviour
 		}
 	}
 
+	public float VerticalMovementAxis
+	{
+		get
+		{
+			InputDevice inputDevice = this.InputDevice;
+			return (inputDevice != null) ? inputDevice.LeftStickX : (this.PlayerNumber == 1 ? Input.GetAxis ("Vertical") : 0.0f);
+		}
+	}
+
 	public bool Jump
 	{
 		get
