@@ -16,18 +16,14 @@ namespace Assets.Scripts
             Width = .5f;
         }
 
-        public override void Awake()
+        public override void Start()
         {
-            base.Awake();
+            base.Start();
 
             Duration = 9999f;
             if (Range == default(float)) Range = 100f;
             if (Width == default(float)) Width = .5f;
-        }
 
-        public override void Start()
-        {
-            base.Start();
             Hero = GetComponent<Hero>();
 
             if (!Hero)

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using Assets.Scripts;
 using Jolly;
 
 public class Hero : MonoBehaviour
@@ -83,7 +84,34 @@ public class Hero : MonoBehaviour
 	public Sprite ProjectileExplosionSprite;
 
 	public int health;
-	public int score;
+
+    [SerializeField] private int _score;
+    public int score
+    {
+        get { return _score; }
+        set
+        {
+            if (_score == value) return;
+
+            var previousScore = _score;
+            _score = value;
+            CheckPowerup(previousScore);
+        }
+    }
+
+    private const int DoubleJumpScore = 5;
+    private const int LaserScore = 10;
+    protected void CheckPowerup(int previousScore)
+    {
+        if (previousScore < DoubleJumpScore && score >= DoubleJumpScore)
+        {
+            this.AddPowerup<MonsterDoubleJump>(10f);
+        }
+        else if (previousScore < LaserScore && score >= LaserScore)
+        {
+            this.AddPowerup<MonsterLaser>();
+        }
+    }
 
 	void Start ()
 	{
