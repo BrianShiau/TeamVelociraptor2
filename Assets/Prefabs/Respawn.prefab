@@ -37,11 +37,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 113062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 319fea817c753e049bf16acd3931342f, type: 3}
+  m_Script: {fileID: 11500000, guid: b49450f4134f54a4eb0cdecadb28f5e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  person: {fileID: 180404, guid: 02433b85d8d0b1748a4bf677cfcf14c0, type: 2}
+  person: {fileID: 180404, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
   player: {fileID: 0}
+  respawning: 0
 --- !u!212 &21276982
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -78,7 +79,19 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: person
+      value: 
+      objectReference: {fileID: 180404, guid: 890c2e3308d6144c7817b08046994edc, type: 2}
+    - target: {fileID: 0}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: respawning
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 113062}
