@@ -90,8 +90,8 @@ public class Hero : MonoBehaviour
 	public GameObject healthBar;
 
     ////////////// My fucking amazing code ////////////////
-    public float speed = 10.0f;
-    public float climbSpeed = 10f;
+    public float speed = 1.0f;
+    public float climbSpeed = 1.0f;
 
     [SerializeField]
     private bool grounded, climbing, nexttowall, onplatform;
@@ -400,7 +400,7 @@ public class Hero : MonoBehaviour
                     gameObject.layer = LayerMask.NameToLayer("Hero Climbing");
                 } else if (grounded){
                     grounded = false;
-                    rb.AddForce(new Vector2(0, 500000000));
+                    rb.AddForce(new Vector2(0, 500000000/2));
                 }
             }
         }

@@ -520,10 +520,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1807130320}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.09880229, y: 0.86472344}
-  m_AnchorMax: {x: 0.09880229, y: 0.86472344}
-  m_AnchoredPosition: {x: 210, y: 20}
-  m_SizeDelta: {x: 500, y: 10}
+  m_AnchorMin: {x: 0.06260457, y: 0.86472344}
+  m_AnchorMax: {x: 0.95450574, y: 0.86472344}
+  m_AnchoredPosition: {x: -5.5, y: 60}
+  m_SizeDelta: {x: 31, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &305768542
 MonoBehaviour:
@@ -1217,6 +1217,50 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!1 &561538608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 561538610}
+  - 114: {fileID: 561538609}
+  m_Layer: 11
+  m_Name: Building (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &561538609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 561538608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aff827b061a80c45b6f85a7b900af40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rows: 6
+  cols: 4
+  BlockTransform: {fileID: 413056, guid: 06336b9d9f3328648a5858ee88ce0ab6, type: 2}
+  BlockWallTransform: {fileID: 448774, guid: a083964d23bc6b84cb7e8f29445f2303, type: 2}
+  PlatformTransform: {fileID: 419536, guid: 8ee1df3e130be2f4c97cab7cc9bd9f12, type: 2}
+--- !u!4 &561538610
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 561538608}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10, y: -1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
 --- !u!1 &576664930
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,7 +1814,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 956359620}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2339,6 +2383,22 @@ Prefab:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 305768540}
+    - target: {fileID: 11466392, guid: 27ab4ff619d2c4e8db6ee852cd94d92a, type: 2}
+      propertyPath: Jump
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 11466392, guid: 27ab4ff619d2c4e8db6ee852cd94d92a, type: 2}
+      propertyPath: Acceleration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11466392, guid: 27ab4ff619d2c4e8db6ee852cd94d92a, type: 2}
+      propertyPath: MaxNewSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11466392, guid: 27ab4ff619d2c4e8db6ee852cd94d92a, type: 2}
+      propertyPath: Gravity
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 27ab4ff619d2c4e8db6ee852cd94d92a, type: 2}
   m_IsPrefabParent: 0
