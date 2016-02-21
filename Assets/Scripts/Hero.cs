@@ -116,8 +116,10 @@ public class Hero : MonoBehaviour
         }
     }
 
-    private const int DoubleJumpScore = 5;
-    private const int LaserScore = 10;
+    [Header("Powerups")]
+    public int DoubleJumpScore;
+    public int LaserScore;
+
     protected void CheckPowerup(int previousScore)
     {
         if (previousScore < DoubleJumpScore && score >= DoubleJumpScore)
@@ -307,12 +309,12 @@ public class Hero : MonoBehaviour
 			GameObject scoreKeeper = GameObject.Find("ScoreKeeper");
 			scoreKeeper.GetComponent<ScoreKeeper>().ResetGame();
 		}
-
+        */
 		if (this.grounded)
 		{
 			this.SetDoubleJumpAllowed();
 		}
-
+        /*
 		bool canMove = !this.IsChanneling && !this.Stomping && !this.IsStunned();
 
 		if (canMove)
@@ -323,7 +325,7 @@ public class Hero : MonoBehaviour
 		{
 			this.velocity = new Vector2 (this.velocity.x * (1.0f - Mathf.Clamp01 (Time.deltaTime)), this.velocity.y);
 		}
-
+        */
 		if (canAct)
 		{
 			if (this.HeroController.Jump)
@@ -337,9 +339,12 @@ public class Hero : MonoBehaviour
 					{
 						this.CanDoubleJump = false;
 						doubleJumped = true;
-					}
-					this.velocity = new Vector2 (this.velocity.x, this.Jump);
+                        
+                        // wonky double jump ????
+                        rb.velocity = new Vector2(rb.velocity.x, this.Jump);
+                    }
 
+                    /*
 					if (doubleJumped)
 					{
 						SoundFX.Instance.OnHeroDoubleJumped(this);
@@ -348,10 +353,11 @@ public class Hero : MonoBehaviour
 					{
 						SoundFX.Instance.OnHeroJumped(this);
 					}
+                    */
 				}
 			}
 		}
-
+        /*
 		this.canChannelGrow = !this.falling && Physics2D.Linecast(this.transform.position, this.GroundDetector.transform.position, 1 << LayerMask.NameToLayer ("Ground"));
 
 		if (this.canChannelGrow)
@@ -759,6 +765,9 @@ public class Hero : MonoBehaviour
 		this.transform.localPosition = Vector3.zero;
 		this.RespawnTimeCalculated = this.RespawnTime;
 		this.NumDeaths = 0;
+
+        DoubleJumpScore = 2;
+        LaserScore = 5;
     }
 
 	void Respawn()

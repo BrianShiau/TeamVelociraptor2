@@ -160,6 +160,7 @@ MonoBehaviour:
   RunSpeed: 1
   TurnTime: 0.2
   TurnChance: 0.2
+  EvacTime: 1
   CollisionLayers:
     serializedVersion: 2
     m_Bits: 4293916671
@@ -173,6 +174,8 @@ MonoBehaviour:
   OnGround: 0
   TurnTimer: 0
   TurnChanceTimer: 0
+  EvacTimer: 0
+  EvacuatingPlayer: {fileID: 0}
 --- !u!212 &21233676
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -232,6 +235,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EvacTime
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

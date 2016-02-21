@@ -191,6 +191,8 @@ MonoBehaviour:
   rb: {fileID: 0}
   playerBounds: {fileID: 0}
   anim: {fileID: 0}
+  ShotgunScore: 2
+  MachinegunScore: 5
 --- !u!212 &21228156
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -277,12 +279,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: climbSpeed
       value: 5
-      propertyPath: EvacRadius
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: EvacLayer.m_Bits
       value: 1048576
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ShotgunScore
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MachinegunScore
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -8,9 +8,12 @@ public class PlayerArm : MonoBehaviour {
     public bool shotgun = false;
     public bool machinegun = false;
 
+    protected Collider2D PlayerCollider;
+
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+	    PlayerCollider = GetComponentInParent<Collider2D>();
 	}
 	
 	// Update is called once per frame
@@ -41,6 +44,8 @@ public class PlayerArm : MonoBehaviour {
 
         var vel = (mouseOnScreen - (Vector2)transform.position) / Vector2.Distance(transform.position, mouseOnScreen) * Time.deltaTime * bulletSpeed;
         projectile.GetComponent<Bullet>().vel = vel;
+
+        Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), PlayerCollider);
     }
 
     void Shotgun()
@@ -58,6 +63,8 @@ public class PlayerArm : MonoBehaviour {
 
             var vel = (mouseOnScreen - (Vector2)transform.position) / Vector2.Distance(transform.position, mouseOnScreen) * Time.deltaTime * bulletSpeed;
             projectile.GetComponent<Bullet>().vel = vel;
+
+            Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), PlayerCollider);
         }
     }
 
