@@ -1387,7 +1387,7 @@ MonoBehaviour:
   climbSpeed: 10
   grounded: 0
   climbing: 0
-  onCorner: 0
+  nexttowall: 0
   rb: {fileID: 0}
   playerBounds: {fileID: 0}
 --- !u!23 &583424680
@@ -1466,6 +1466,8 @@ MonoBehaviour:
   rows: 3
   cols: 3
   BlockTransform: {fileID: 413056, guid: 06336b9d9f3328648a5858ee88ce0ab6, type: 2}
+  BlockWallTransform: {fileID: 448774, guid: a083964d23bc6b84cb7e8f29445f2303, type: 2}
+  PlatformTransform: {fileID: 419536, guid: 8ee1df3e130be2f4c97cab7cc9bd9f12, type: 2}
 --- !u!4 &594462594
 Transform:
   m_ObjectHideFlags: 0
@@ -1920,6 +1922,8 @@ MonoBehaviour:
   rows: 3
   cols: 3
   BlockTransform: {fileID: 413056, guid: 06336b9d9f3328648a5858ee88ce0ab6, type: 2}
+  BlockWallTransform: {fileID: 448774, guid: a083964d23bc6b84cb7e8f29445f2303, type: 2}
+  PlatformTransform: {fileID: 419536, guid: 8ee1df3e130be2f4c97cab7cc9bd9f12, type: 2}
 --- !u!4 &956359622
 Transform:
   m_ObjectHideFlags: 0

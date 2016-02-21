@@ -11,7 +11,7 @@ GameObject:
   - 61: {fileID: 6131414}
   - 114: {fileID: 11447554}
   m_Layer: 0
-  m_Name: BuildingBlockTrigger
+  m_Name: BuildingWall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
