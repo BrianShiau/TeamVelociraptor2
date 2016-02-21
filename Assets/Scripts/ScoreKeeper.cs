@@ -75,9 +75,10 @@ public class ScoreKeeper : MonoBehaviour
 		Destroy(this.GameWonSound);
 	}
 
-	void Update()
+	public void Update()
 	{
-		if (this.WinningHero != null)
+		Debug.Log ("TEST");
+		/*if (this.WinningHero != null)
 		{
 			return;
 		}
@@ -103,7 +104,7 @@ public class ScoreKeeper : MonoBehaviour
 		else
 		{
 			this.StopHeroAboutToWinSound();
-		}
+		}*/
 	}
 
 	public void ResetGame()

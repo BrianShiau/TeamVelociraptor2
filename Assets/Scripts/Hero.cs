@@ -84,6 +84,7 @@ public class Hero : MonoBehaviour
 	public Sprite ProjectileExplosionSprite;
 
 	public int health;
+	public bool victory;
 
     [SerializeField] private int _score;
     public int score
@@ -130,6 +131,7 @@ public class Hero : MonoBehaviour
 
 		this.health = 100;
 		score = 0;
+		victory = false;
 	}
 
 	private float scale
@@ -207,6 +209,19 @@ public class Hero : MonoBehaviour
 		string displayString = string.Format("{0} HP\nScore: {1}", health, score);
 
 		this.DrawOutlineText(new Rect((position.x + iconSizeWidth * 1.25f) / 1920.0f * Screen.width, 0, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
+
+		if (this.health <= 0) {
+			style.fontSize = (int)(Screen.width * 0.1f);
+			style.alignment = TextAnchor.MiddleCenter;
+			string winningText = string.Format ("HUMANITY IS SAVED!");
+			this.DrawOutlineText (new Rect (0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
+		}
+		if (this.victory) {
+			style.fontSize = (int)(Screen.width * 0.1f);
+			style.alignment = TextAnchor.MiddleCenter;
+			string winningText = string.Format ("THE MONSTER WINS!");
+			this.DrawOutlineText (new Rect (0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
+		}
 	}
 
 	bool CanJumpOffGround()

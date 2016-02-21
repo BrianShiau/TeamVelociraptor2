@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using Jolly;
 
 public class BuildingScript : MonoBehaviour {
 
@@ -11,7 +14,7 @@ public class BuildingScript : MonoBehaviour {
     bool[] present;
     Transform[,] building;
 
-    bool done = false;
+	bool done = false;
 
 	// Use this for initialization
 	void Start () {
@@ -55,6 +58,10 @@ public class BuildingScript : MonoBehaviour {
         }
         if (n_gone >= rows){
             // Drop powerup
+			if ((FindObjectsOfType<BuildingScript> ()).Length<=1) {
+				//end game, monster wins
+				FindObjectOfType<Hero> ().victory = true;
+			}
             Destroy(gameObject);
         }
 	}
