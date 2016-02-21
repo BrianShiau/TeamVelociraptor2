@@ -165,6 +165,7 @@ MonoBehaviour:
   bulletSpeed: 10
   shotgun: 0
   machinegun: 0
+  ProjectileDelay: 0
 --- !u!114 &11444698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,7 +249,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e2c04fa6d4b934b10b195291df3674de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -291,6 +292,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: MachinegunScore
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
