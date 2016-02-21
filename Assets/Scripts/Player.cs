@@ -64,6 +64,15 @@ public class Player : MonoBehaviour {
         if (!WallCollisions.Any()) climbing = false;
     }
 
+    void OnCollisionEnter2D(Collision2D c)
+    {
+        //Player dies to punch
+        if (c.gameObject.GetComponent<Punch>())
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void OnCollisionStay2D(Collision2D c) {
         //Used for jumping
         if (playerBounds.bounds.min.y >= c.collider.bounds.max.y - .1f && !onCorner) {
