@@ -110,10 +110,10 @@ public class BuildingScript : MonoBehaviour {
                     new Vector3(minwall - wallposes[j,0], 0, 0));
                 wallposes[j,0] = minwall;
             }
-            if (maxwall < wallposes[j,1]){
+            if (maxwall + 1 < wallposes[j,1]){
                 walltriggers[j,1].Translate(
                     new Vector3(maxwall - wallposes[j,1] + 1, 0, 0));
-                wallposes[j,1] = maxwall;
+                wallposes[j,1] = maxwall + 1;
             }
         }
         for (int i = 0; i < cols; i++){
