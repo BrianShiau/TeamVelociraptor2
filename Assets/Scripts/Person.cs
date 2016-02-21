@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class Person : MonoBehaviour
@@ -30,6 +27,10 @@ public class Person : MonoBehaviour
 
     public string TurningBool;
     protected int TurningBoolHash;
+
+    [Header("Sound")]
+    public AudioSource EvacuationLoop;
+    public AudioClip EvacuationClip;
 
     [Header("Debug")]
     public State CurrentState;
@@ -142,6 +143,8 @@ public class Person : MonoBehaviour
         {
             if (EvacuatingPlayer != null)
             {
+                if(EvacuationLoop) EvacuationLoop.Play();
+
                 CurrentState = State.Evacuating;
                 EvacTimer = 0f;
             }
@@ -150,6 +153,8 @@ public class Person : MonoBehaviour
         {
             if (EvacuatingPlayer == null)
             {
+                if (EvacuationLoop) EvacuationLoop.Stop();
+
                 CurrentState = State.Moving;
                 EvacTimer = 0f;
             }
@@ -184,6 +189,8 @@ public class Person : MonoBehaviour
 
     public void Evacuate(Player player)
     {
+        if (EvacuationClip) AudioSource.PlayClipAtPoint(EvacuationClip, transform.position);
+
         ++player.PeopleEvacuated;
         Destroy(gameObject);
     }

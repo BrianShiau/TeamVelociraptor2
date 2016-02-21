@@ -46,6 +46,7 @@ public class Player : MonoBehaviour {
     private const int maxEvacChecks = 32;
 
     [Header("Powerups")]
+    public AudioSource PowerupAudio;
     public int ShotgunScore;
     public int MachinegunScore;
 
@@ -71,10 +72,12 @@ public class Player : MonoBehaviour {
         if (previousScore < ShotgunScore && PeopleEvacuated >= ShotgunScore)
         {
             this.AddPowerup<PlayerShotgun>(10f);
+            if(PowerupAudio) PowerupAudio.Play();
         }
         else if (previousScore < MachinegunScore && PeopleEvacuated >= MachinegunScore)
         {
             this.AddPowerup<PlayerMachineGun>(10f);
+            if(PowerupAudio) PowerupAudio.Play();
         }
     }
 

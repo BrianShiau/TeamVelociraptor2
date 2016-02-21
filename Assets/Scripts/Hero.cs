@@ -119,6 +119,9 @@ public class Hero : MonoBehaviour
     }
 
     [Header("Powerups")]
+    public AudioSource PowerupAudio;
+    public AudioClip LaserFireClip;
+    public AudioSource DoubleJumpAudio;
     public int DoubleJumpScore;
     public int LaserScore;
 
@@ -127,10 +130,13 @@ public class Hero : MonoBehaviour
         if (previousScore < DoubleJumpScore && score >= DoubleJumpScore)
         {
             this.AddPowerup<MonsterDoubleJump>(10f);
+            if(PowerupAudio) PowerupAudio.Play();
         }
         else if (previousScore < LaserScore && score >= LaserScore)
         {
-            this.AddPowerup<MonsterLaser>();
+            var laser = this.AddPowerup<MonsterLaser>();
+            laser.Clip = LaserFireClip;
+            if(PowerupAudio) PowerupAudio.Play();
         }
     }
 
@@ -379,7 +385,9 @@ public class Hero : MonoBehaviour
 						doubleJumped = true;
                         
                         // wonky double jump ????
-                        //rb.velocity = new Vector2(rb.velocity.x, this.Jump);
+
+					    if (DoubleJumpAudio) DoubleJumpAudio.Play();
+                        rb.velocity = new Vector2(rb.velocity.x, this.Jump);
                     }
 
                     /*
