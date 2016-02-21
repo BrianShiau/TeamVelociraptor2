@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using Jolly;
+using UnityEngine.UI;
 
 public class Hero : MonoBehaviour
 {
@@ -90,6 +91,7 @@ public class Hero : MonoBehaviour
 	public int health;
 	public bool victory;
 	public GameObject healthBar;
+	public Text healthText;
 
     ////////////// My fucking amazing code ////////////////
     public float speed = 1.0f;
@@ -259,7 +261,18 @@ public class Hero : MonoBehaviour
 			else
 				displayString = string.Format ("laser fired", score);
 		}
-			
+		//healthText.text = displayString;
+
+		displayString += "                                                        0/5 to shotgun";
+		if (FindObjectOfType<Player> () != null) {
+			if (FindObjectOfType<Player> ().PeopleEvacuated < 5)
+				displayString = string.Format ("{0}/5 to laser", score);
+			else {
+				displayString = string.Format ("shotgun acquired", score);
+			}
+		}
+
+
 		this.DrawOutlineText(new Rect(20, 30, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
 
         if (this.health <= 0)
