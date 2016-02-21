@@ -117,7 +117,7 @@ public class Hero : MonoBehaviour
 	void Start ()
 	{
 		this.HeroController = this.GetComponent<HeroController>();
-		this.GetComponentInChildren<SpriteRenderer>().sprite = this.BodySprites[this.HeroController.PlayerNumber];
+		//this.GetComponentInChildren<SpriteRenderer>().sprite = this.BodySprites[this.HeroController.PlayerNumber];
 		this.ProjectileSprite = this.ProjectileSprites[this.HeroController.PlayerNumber];
 		this.ProjectileExplosionSprite = this.ProjectileExplosions[this.HeroController.PlayerNumber];
 		this.StartScale = this.scale;
