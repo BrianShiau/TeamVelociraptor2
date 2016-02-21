@@ -7,11 +7,13 @@ public class Player : MonoBehaviour {
 
     public float speed = 10.0f;
     public float climbSpeed = 10f;
+    public float move = 0;
     public bool grounded = false;
     public bool climbing = false;
     public bool nexttowall = false;
     public Rigidbody2D rb;
     public Collider2D playerBounds;
+    public Animator anim;
 
     public HashSet<Collider2D> WallCollisions;
 
@@ -24,9 +26,17 @@ public class Player : MonoBehaviour {
     void Start () {
         rb = gameObject.GetComponent<Rigidbody2D>();
         playerBounds = gameObject.GetComponent<Collider2D>();
+        anim = gameObject.GetComponent<Animator>();
 	}
 	
 	void Update () {
+        anim.SetBool("PlayerJump", !grounded && !climbing);
+        if (move == 0)
+            anim.SetBool("PlayerWalk", false);
+        else
+            anim.SetBool("PlayerWalk", true);
+
+
         //Jump is placed in Update for responsiveness
         if (Input.GetKey("up")){
             if (climbing)
@@ -58,7 +68,7 @@ public class Player : MonoBehaviour {
 
     void FixedUpdate() {
         //Horizontal Movement
-        float move = Input.GetAxis("Horizontal2") * speed * Time.deltaTime;
+        move = Input.GetAxis("Horizontal2") * speed * Time.deltaTime;
         transform.Translate(move, 0, 0);
 
         CheckWallCollisions();
@@ -78,8 +88,15 @@ public class Player : MonoBehaviour {
         //Player dies to punch
         if (c.gameObject.GetComponent<Punch>())
         {
-            Destroy(gameObject);
+            StartCoroutine(Die());
         }
+    }
+
+    IEnumerator Die()
+    {
+        anim.SetBool("PlayerDeath", true);
+        yield return new WaitForSeconds(1);
+        Destroy(gameObject);
     }
 
     void OnCollisionStay2D(Collision2D c) {
