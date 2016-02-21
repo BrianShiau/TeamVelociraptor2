@@ -6,7 +6,9 @@ public class BlockScript : MonoBehaviour {
     [SerializeField]
     Sprite sprite_fine, sprite_damaged;
 
-    public bool damaged;
+    int health = 2;
+
+    public bool damaged = false;
 
 	// Use this for initialization
 	void Start () {
@@ -19,10 +21,11 @@ public class BlockScript : MonoBehaviour {
 	}
 
     public void DamageBuilding() {
-        GetComponent<SpriteRenderer>().sprite = sprite_damaged;
-        GetComponent<BoxCollider2D>().enabled = false;
-        damaged = true;
-        transform.parent.gameObject.GetComponent<BuildingScript>().CheckBuilding();
+        if (--health <= 0){
+            GetComponent<SpriteRenderer>().sprite = sprite_damaged;
+            GetComponent<BoxCollider2D>().enabled = false;
+            damaged = true;
+        }
     }
 
 	void OnCollisionEnter2D(Collision2D collision)
