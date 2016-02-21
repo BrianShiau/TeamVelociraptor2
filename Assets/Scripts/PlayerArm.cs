@@ -58,7 +58,7 @@ public class PlayerArm : MonoBehaviour {
 
     void Shotgun()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 2; i++)
         {
             float randX = Random.Range(-.5f, .5f);
             float randY = Random.Range(-.5f, .5f);
