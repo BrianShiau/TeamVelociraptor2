@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 427258}
   - 114: {fileID: 11402198}
   m_Layer: 11
-  m_Name: New Prefab
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

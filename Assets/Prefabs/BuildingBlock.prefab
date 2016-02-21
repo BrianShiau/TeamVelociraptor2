@@ -75,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite_fine: {fileID: 21300000, guid: c08ae6e0c30e64fa4ba54defb6f58efd, type: 3}
   sprite_damaged: {fileID: 21300000, guid: 95cd60f5e341041ea9fa25fe81770038, type: 3}
-  sprite_destroyed: {fileID: 0}
+  sprite_destroyed: {fileID: 21300000, guid: 7cf1cf04f29154ff394bb9ebaffb1245, type: 3}
   damaged: 0
 --- !u!212 &21274354
 SpriteRenderer:
