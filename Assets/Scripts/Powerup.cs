@@ -13,15 +13,12 @@ namespace Assets.Scripts
 
         public virtual void Awake()
         {
-            if (Duration == default(float))
-            {
-                Duration = 10f;
-            }
+            
         }
 
         public virtual void Start()
         {
-
+            if (Duration == default(float)) Duration = 10f;
         }
 
         public virtual void Update()

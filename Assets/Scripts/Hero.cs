@@ -87,6 +87,7 @@ public class Hero : MonoBehaviour
 
 	public int health;
 	public bool victory;
+	public GameObject healthBar;
 
     ////////////// My fucking amazing code ////////////////
     public float speed = 10.0f;
@@ -193,9 +194,9 @@ public class Hero : MonoBehaviour
 
 		float xPosition = position.x;
 
-		Texture badge = (Texture)Resources.Load(string.Format("p{0}_badge", this.PlayerIndex), typeof(Texture));
+		/*Texture badge = (Texture)Resources.Load(string.Format("p{0}_badge", this.PlayerIndex), typeof(Texture));
 		GUI.DrawTexture(new Rect(xPosition / 1920.0f * Screen.width, (position.y - iconSizeWidth * 0.5f) / 1080.0f * Screen.height, iconSizeWidth / 1920.0f * Screen.width, iconSizeWidth / 1920.0f * Screen.width), badge);
-		xPosition += (iconSizeWidth * 1.5f);
+		xPosition += (iconSizeWidth * 1.5f);*/
 
 		bool drawHearts = false;
 		if (drawHearts)
@@ -229,9 +230,10 @@ public class Hero : MonoBehaviour
 		{
 			displayString = string.Format("{0} Deaths", this.NumDeaths);
 		}*/
-		string displayString = string.Format("{0} HP\nScore: {1}", health, score);
+		string displayString = string.Format("Score: {0}", score);
+		healthBar.transform.localScale = new Vector3(health/100.0f, 1.0f, 1.0f);
 
-		this.DrawOutlineText(new Rect((position.x + iconSizeWidth * 1.25f) / 1920.0f * Screen.width, 0, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
+		this.DrawOutlineText(new Rect(20, 30, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
 
 		if (this.health <= 0) {
 			style.fontSize = (int)(Screen.width * 0.1f);

@@ -176,13 +176,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2719688903fe4b748875969d7d640ed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  climbSpeed: 10
+  speed: 3
+  climbSpeed: 3
   move: 0
+  EvacRadius: 1
+  EvacLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
   grounded: 0
   climbing: 0
   nexttowall: 0
   onplatform: 0
+  _peopleEvacuated: 0
   rb: {fileID: 0}
   playerBounds: {fileID: 0}
   anim: {fileID: 0}
@@ -264,6 +269,20 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: climbSpeed
+      value: 5
+      propertyPath: EvacRadius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EvacLayer.m_Bits
+      value: 1048576
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
