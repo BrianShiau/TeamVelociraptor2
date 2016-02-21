@@ -9,8 +9,30 @@ public class Player : MonoBehaviour {
     public float climbSpeed = 10f;
     public float move = 0;
 
+    public float EvacRadius;
+    public LayerMask EvacLayer;
+
     [SerializeField]
     private bool grounded, climbing, nexttowall, onplatform;
+
+    [SerializeField]
+    private int _peopleEvacuated;
+    public int PeopleEvacuated
+    {
+        get
+        {
+            return _peopleEvacuated;
+        }
+        set
+        {
+            if (_peopleEvacuated == value)
+                return;
+
+            var previousPeopleEvacuated = _peopleEvacuated;
+            _peopleEvacuated = value;
+            CheckPowerup(previousPeopleEvacuated);
+        }
+    }
 
     public Rigidbody2D rb;
     public Collider2D playerBounds;
@@ -18,9 +40,28 @@ public class Player : MonoBehaviour {
 
     public HashSet<Collider2D> WallCollisions;
 
+    public HashSet<Person> EvacuatingPeople;
+    private Collider2D[] evacCheckResults;
+    private const int maxEvacChecks = 32;
+
+    public void Reset()
+    {
+        EvacRadius = 1f;
+        EvacLayer = 1 << LayerMask.NameToLayer("People");
+    }
+
     public void Awake()
     {
         WallCollisions = new HashSet<Collider2D>();
+        PeopleEvacuated = 0;
+
+        EvacuatingPeople = new HashSet<Person>();
+        evacCheckResults = new Collider2D[maxEvacChecks];
+    }
+
+    public void CheckPowerup(int previousPeopleEvacuated)
+    {
+        // ???
     }
 
     // Use this for initialization
@@ -73,6 +114,7 @@ public class Player : MonoBehaviour {
         transform.Translate(move, 0, 0);
 
         CheckWallCollisions();
+        CheckEvacuation();
     }
 
     protected void CheckWallCollisions()
@@ -82,6 +124,29 @@ public class Player : MonoBehaviour {
             climbing = false;
             gameObject.layer = LayerMask.NameToLayer("Hero");
         }
+    }
+
+    protected void CheckEvacuation()
+    {
+        var amount = Physics2D.OverlapCircleNonAlloc(transform.position, EvacRadius, evacCheckResults, EvacLayer);
+
+        var newEvacuatingPeople = new HashSet<Person>();
+        for (var i = 0; i < amount; ++i)
+        {
+            Person person;
+            if (!(person = evacCheckResults[i].GetComponent<Person>()))
+                continue;
+
+            person.EvacuatingPlayer = this;
+            newEvacuatingPeople.Add(person);
+        }
+
+        foreach (var leftPerson in EvacuatingPeople.Except(newEvacuatingPeople))
+        {
+            leftPerson.EvacuatingPlayer = null;
+        }
+
+        EvacuatingPeople = newEvacuatingPeople;
     }
 
     void OnCollisionEnter2D(Collision2D c)
@@ -96,6 +161,10 @@ public class Player : MonoBehaviour {
     IEnumerator Die()
     {
         anim.SetBool("PlayerDeath", true);
+        foreach (Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }
