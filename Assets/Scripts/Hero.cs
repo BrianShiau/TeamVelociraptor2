@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts;
 using Jolly;
 
@@ -86,6 +88,19 @@ public class Hero : MonoBehaviour
 	public int health;
 	public bool victory;
 
+    ////////////// My fucking amazing code ////////////////
+    public float speed = 10.0f;
+    public float climbSpeed = 10f;
+
+    [SerializeField]
+    private bool grounded, climbing, nexttowall, onplatform;
+
+    public Rigidbody2D rb;
+    public Collider2D playerBounds;
+
+    public HashSet<Collider2D> WallCollisions;
+    //////////////////////////////////////////////////////
+
     [SerializeField] private int _score;
     public int score
     {
@@ -114,6 +129,11 @@ public class Hero : MonoBehaviour
         }
     }
 
+    public void Awake()
+    {
+        WallCollisions = new HashSet<Collider2D>();
+    }
+
 	void Start ()
 	{
 		this.HeroController = this.GetComponent<HeroController>();
@@ -132,6 +152,9 @@ public class Hero : MonoBehaviour
 		this.health = 100;
 		score = 0;
 		victory = false;
+
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        playerBounds = gameObject.GetComponent<Collider2D>();
 	}
 
 	private float scale
@@ -231,6 +254,7 @@ public class Hero : MonoBehaviour
 
 	void Update ()
 	{
+        /*
 		if (this.RespawnTimeLeft > 0.0f)
 		{
 			this.transform.position = new Vector3(0.0f, -20.0f, 0.0f);
@@ -241,6 +265,7 @@ public class Hero : MonoBehaviour
 				this.Respawn ();
 			}
 		}
+        */
 
 
 		this.JumpForgivenessTimeLeft -= Time.deltaTime;
@@ -274,6 +299,7 @@ public class Hero : MonoBehaviour
 			}*/
 		}
 
+        /*
 		if (this.HeroController.GetResetGame)
 		{
 			GameObject scoreKeeper = GameObject.Find("ScoreKeeper");
@@ -282,7 +308,7 @@ public class Hero : MonoBehaviour
 
 		if (this.grounded)
 		{
-			//this.SetDoubleJumpAllowed();
+			this.SetDoubleJumpAllowed();
 		}
 
 		bool canMove = !this.IsChanneling && !this.Stomping && !this.IsStunned();
@@ -353,7 +379,35 @@ public class Hero : MonoBehaviour
 				this.velocity = new Vector2 (0.0f, this.velocity.y);
 			}
 		}
+        */
 
+        ////////////// My fucking amazing code ////////////////
+        float vertaxis = this.HeroController.VerticalMovementAxis;
+        if (vertaxis > 0){
+            if (climbing) {
+                transform.Translate(0, climbSpeed * Time.deltaTime, 0);
+            } else {
+                if (nexttowall){
+                    rb.velocity = new Vector2(0,0);
+                    gameObject.layer = LayerMask.NameToLayer("Hero Climbing");
+                } else if (grounded){
+                    grounded = false;
+                    rb.AddForce(new Vector2(0, 500000000));
+                }
+            }
+        }
+        if (climbing && vertaxis < 0)
+        {
+            transform.Translate(0, -climbSpeed * Time.deltaTime, 0);
+        }
+        
+        //Disable gravity for climbing
+        if (climbing)
+            rb.gravityScale = 0;
+        else
+            rb.gravityScale = 3;
+
+        ///////////////////////////////////////////////////////
 	}
 
 	public float StaticMargin = 0.2f;
@@ -372,7 +426,6 @@ public class Hero : MonoBehaviour
 	private Rect box;
 	private Vector2 velocity = Vector2.zero;
 	private bool falling = true;
-	private bool grounded = false;
 	private bool canStomp = true;
 	private int groundMask;
 
@@ -392,6 +445,7 @@ public class Hero : MonoBehaviour
         }
 
 
+        /*
 		if (!this.grounded)
 		{
 			if (this.Stomping)
@@ -405,9 +459,11 @@ public class Hero : MonoBehaviour
 		}
 
 		this.falling = this.velocity.y < 0;
+        */
 
 		bool hitSomething = false;
 		RaycastHit2D raycastHit;
+        /*
 		if (grounded || falling)
 		{
 			Vector3 startPoint = new Vector3(this.box.xMin + this.StaticMargin, this.box.yMin + this.StaticMargin, this.transform.position.z);
@@ -505,15 +561,32 @@ public class Hero : MonoBehaviour
 		{
 			grounded = false;
 		}
+        */
 
-		if ((this.velocity.x > 0 && !this.FacingRight) || (this.velocity.x < 0 && this.FacingRight))
+
+        float HoriAxis = this.HeroController.HorizontalMovementAxis;
+		if ((HoriAxis > 0 && !this.FacingRight)
+            || (HoriAxis < 0 && this.FacingRight))
 		{
 			this.Flip();
 		}
 
+        transform.Translate(
+            HoriAxis * speed * Time.deltaTime, 0, 0);
+
 		this.TimeUntilNextProjectile -= Time.fixedDeltaTime;
 
-		this.transform.Translate (this.velocity * Time.fixedDeltaTime);
+		//this.transform.Translate (this.velocity * Time.fixedDeltaTime);
+        CheckWallCollisions();
+    }
+
+    protected void CheckWallCollisions()
+    {
+        WallCollisions.RemoveWhere(d => !d.enabled);
+        if (!(nexttowall || onplatform) && !WallCollisions.Any()) {
+            climbing = false;
+            gameObject.layer = LayerMask.NameToLayer("Hero");
+        }
     }
 
 
@@ -701,7 +774,7 @@ public class Hero : MonoBehaviour
 		//hardcoded growStage to #
 		this.scale = (this.ScaleAdjustment * 3 * this.StartScale) + this.StartScale;
 		Rigidbody2D rb = GetComponent<Rigidbody2D>();
-		rb.mass = 5000000/*(this.StartScale / this.scale)*/;
+		rb.mass = 500000/*(this.StartScale / this.scale)*/;
 	}
 
 	public int GetGrowStage()
@@ -709,13 +782,61 @@ public class Hero : MonoBehaviour
 		return (int)((this.scale - this.StartScale) / (ScaleAdjustment * this.StartScale));
 	}
 
+    void OnCollisionStay2D(Collision2D c) {
+        //Used for jumping
+        if (!climbing
+                && playerBounds.bounds.min.y >= c.collider.bounds.max.y - .1f) {
+            // - .1f is for some error
+            grounded = true;
+        }
+
+        //Climbing the wall
+        if (gameObject.layer == LayerMask.NameToLayer("Hero Climbing")
+                && c.gameObject.CompareTag("Wall")
+                && playerBounds.bounds.min.y > c.collider.bounds.min.y - .1f)
+        {
+            if (!WallCollisions.Contains(c.collider))
+                WallCollisions.Add(c.collider);
+            climbing = true;
+            rb.velocity = new Vector2(0,0);
+        }
+        //Climbing the platforms 
+        if (gameObject.layer == LayerMask.NameToLayer("Hero Platform")
+                && c.gameObject.CompareTag("Platform")
+                && playerBounds.bounds.min.y > c.collider.bounds.min.y - .1f)
+        {
+            if (!WallCollisions.Contains(c.collider))
+                WallCollisions.Add(c.collider);
+            grounded = true;
+            onplatform = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D c)
+    {
+        WallCollisions.Remove(c.collider);
+
+        grounded = false;
+    }
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		//this.gameObject.layer = LayerMask.NameToLayer ("Hero Platforms");
+        if (other.tag == "Wall"){
+            nexttowall = true;
+        } else if (other.tag == "Platform" && rb.velocity.y < 0){
+            gameObject.layer = LayerMask.NameToLayer("Hero Platform");
+            onplatform = true;
+        }
 	}
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		this.gameObject.layer = LayerMask.NameToLayer ("Default");
+		//this.gameObject.layer = LayerMask.NameToLayer ("Default");
+        if (other.tag == "Wall"){
+            nexttowall = false;
+        } else if (other.tag == "Platform"){
+            onplatform = false;
+        }
 	}
 }
