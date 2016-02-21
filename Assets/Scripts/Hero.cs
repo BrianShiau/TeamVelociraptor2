@@ -8,6 +8,8 @@ using Jolly;
 
 public class Hero : MonoBehaviour
 {
+    public Animator anim;
+
 	public float ScaleAdjustment;
 	public int ScaleIterations;
 	public Vector2 HUDPosition
@@ -139,6 +141,8 @@ public class Hero : MonoBehaviour
 
 	void Start ()
 	{
+        anim = gameObject.GetComponentInChildren<Animator>();
+
 		this.HeroController = this.GetComponent<HeroController>();
 		//this.GetComponentInChildren<SpriteRenderer>().sprite = this.BodySprites[this.HeroController.PlayerNumber];
 		this.ProjectileSprite = this.ProjectileSprites[this.HeroController.PlayerNumber];
@@ -237,27 +241,59 @@ public class Hero : MonoBehaviour
 
 		this.DrawOutlineText(new Rect(20, 30, Screen.width, Screen.height), displayString, style, Color.black, Color.white, 1);
 
-		if (this.health <= 0) {
-			style.fontSize = (int)(Screen.width * 0.1f);
-			style.alignment = TextAnchor.MiddleCenter;
-			string winningText = string.Format ("HUMANITY IS SAVED!");
-			this.DrawOutlineText (new Rect (0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
-		}
-		if (this.victory) {
-			style.fontSize = (int)(Screen.width * 0.1f);
-			style.alignment = TextAnchor.MiddleCenter;
-			string winningText = string.Format ("THE MONSTER WINS!");
-			this.DrawOutlineText (new Rect (0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
-		}
-	}
+        if (this.health <= 0)
+        {
+            StartCoroutine(BlobDie());
+            style.fontSize = (int)(Screen.width * 0.1f);
+            style.alignment = TextAnchor.MiddleCenter;
+            string winningText = string.Format("HUMANITY IS SAVED!");
+            this.DrawOutlineText(new Rect(0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
+        }
+        if (this.victory)
+        {
+            style.fontSize = (int)(Screen.width * 0.1f);
+            style.alignment = TextAnchor.MiddleCenter;
+            string winningText = string.Format("THE MONSTER WINS!");
+            this.DrawOutlineText(new Rect(0, 0, Screen.width, Screen.height), winningText, style, Color.black, Color.green, 1);
+        }
+    }
 
-	bool CanJumpOffGround()
-	{
-		return (this.grounded || this.JumpForgivenessTimeLeft > 0.0f);
-	}
+    bool CanJumpOffGround()
+    {
+        return (this.grounded || this.JumpForgivenessTimeLeft > 0.0f);
+    }
 
-	void Update ()
-	{
+    IEnumerator BlobAttack()
+    {
+        anim.SetBool("BlobAttack", true);
+        yield return new WaitForSeconds(.2f);
+        anim.SetBool("BlobAttack", false);
+    }
+
+    IEnumerator BlobDie()
+    {
+        anim.SetBool("BlobDie", true);
+        yield return new WaitForSeconds(1);
+        Destroy(gameObject);
+    }
+
+    void Update()
+    {
+        if (grounded && !climbing)
+            anim.SetBool("BlobJump", false);
+        else
+            anim.SetBool("BlobJump", true);
+
+        if (climbing)
+            anim.SetBool("BlobClimb", true);
+        else
+            anim.SetBool("BlobClimb", false);
+
+        float HoriAxis = this.HeroController.HorizontalMovementAxis;
+        if (HoriAxis != 0)
+            anim.SetBool("BlobWalk", true);
+        else
+            anim.SetBool("BlobWalk", false);
         /*
 		if (this.RespawnTimeLeft > 0.0f)
 		{
@@ -272,14 +308,16 @@ public class Hero : MonoBehaviour
         */
 
 
-		this.JumpForgivenessTimeLeft -= Time.deltaTime;
+        this.JumpForgivenessTimeLeft -= Time.deltaTime;
 
 		bool canAct = !this.IsChanneling && !this.Stomping && !this.IsStunned();
 		if (canAct)
 		{
 			if (this.HeroController.Shooting && CanPunch && this.TimeUntilNextProjectile < 0.0f)
 			{
-				this.TimeUntilNextProjectile = this.ProjectileDelay;
+                StartCoroutine(BlobAttack());
+
+                this.TimeUntilNextProjectile = this.ProjectileDelay;
 				//GameObject projectile = (GameObject)GameObject.Instantiate(this.Projectile, this.ProjectileEmitLocator.transform.position, Quaternion.identity);
 				GameObject projectile = (GameObject)GameObject.Instantiate(this.Punch, this.ProjectileEmitLocator.transform.position, Quaternion.identity);
 				projectile.GetComponent<SpriteRenderer>().sprite = this.ProjectileSprite;
