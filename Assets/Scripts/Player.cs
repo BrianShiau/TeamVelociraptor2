@@ -96,6 +96,10 @@ public class Player : MonoBehaviour {
     IEnumerator Die()
     {
         anim.SetBool("PlayerDeath", true);
+        foreach (Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }
